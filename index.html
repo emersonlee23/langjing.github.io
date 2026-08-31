@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>公司报销管理小工具</title>
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+<style>
+:root{
+  --primary:#1a5f9e; --primary-dark:#124a7a; --primary-light:#e8f1fa;
+  --success:#2e7d32; --danger:#c62828; --warn:#f9a825;
+  --bg:#f2f5f9; --card:#ffffff; --border:#dde3ec; --text:#1c2b3a; --muted:#6b7a8c;
+  --radius:10px; --shadow:0 2px 10px rgba(20,40,70,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+.app{max-width:1080px;margin:0 auto;padding:20px 16px 80px}
+/* 顶部 */
+.topbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+.topbar h1{font-size:22px;font-weight:700;color:var(--primary-dark);display:flex;align-items:center;gap:10px}
+.topbar h1 .logo{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--primary),#3a8fd4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:none;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;background:#e8edf4;color:var(--text);transition:.15s;font-family:inherit}
+.btn:hover{filter:brightness(.96)}
+.btn.primary{background:var(--primary);color:#fff}
+.btn.success{background:var(--success);color:#fff}
+.btn.danger{background:#fdecea;color:var(--danger);border:1px solid #f5c6c0}
+.btn.sm{padding:4px 10px;font-size:12px;border-radius:6px}
+.btn.outline{background:#fff;border:1px solid var(--border)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+/* 卡片 */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}
+.card .head{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:#fafbfd}
+.card .head h2{font-size:15px;font-weight:600;color:var(--primary-dark)}
+.card .body{padding:18px}
+/* 表单 */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12.5px;font-weight:600;color:var(--muted)}
+.field label .req{color:var(--danger)}
+.field input,.field select,.field textarea{border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-size:14px;font-family:inherit;background:#fff;color:var(--text);transition:.15s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,95,158,.12)}
+.field textarea{resize:vertical;min-height:70px}
+.hint{font-size:11.5px;color:var(--muted)}
+/* 附件 */
+.upload-box{border:2px dashed var(--border);border-radius:8px;padding:16px;text-align:center;cursor:pointer;color:var(--muted);transition:.15s;background:#fafcff}
+.upload-box:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+.upload-box input{display:none}
+.attach-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.attach-item{display:flex;align-items:center;gap:8px;background:#f4f7fb;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12.5px;max-width:100%}
+.attach-item .name{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.attach-item .icon{font-size:15px}
+.attach-item .act{cursor:pointer;color:var(--muted);font-size:12px;padding:0 3px}
+.attach-item .act:hover{color:var(--primary)}
+.attach-item .del{color:var(--danger)}
+/* 明细表 */
+.items-table{width:100%;border-collapse:collapse;margin-top:6px}
+.items-table th{background:#f4f7fb;font-size:12px;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:2px solid var(--border);white-space:nowrap}
+.items-table td{padding:7px 8px;border-bottom:1px solid #eef1f6;vertical-align:top}
+.items-table input,.items-table select{width:100%;border:1px solid var(--border);border-radius:6px;padding:7px 9px;font-size:13px;font-family:inherit}
+.col-num{width:36px;text-align:center;color:var(--muted);font-size:12px}
+.col-type{width:150px}.col-date{width:140px}.col-amt{width:130px}.col-act{width:52px;text-align:center}
+.total-bar{display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-top:12px;font-size:15px}
+.total-bar .amt{font-size:20px;font-weight:700;color:var(--primary)}
+/* 账户 */
+.account-card{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.note{background:#fff8e6;border:1px solid #f3e2b6;border-radius:8px;padding:9px 12px;font-size:12.5px;color:#7a5c00}
+/* 列表 */
+.list-row{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid #eef1f6;transition:.1s}
+.list-row:hover{background:#f8fafd}
+.list-row .info{flex:1;min-width:0}
+.list-row .info .t{font-weight:600;font-size:14px}
+.list-row .info .s{font-size:12px;color:var(--muted);margin-top:2px}
+.list-row .amt{font-weight:700;font-size:15px;color:var(--primary)}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;background:#eef4fb;color:var(--primary);margin-left:6px}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+/* 预览模态 */
+.modal-mask{position:fixed;inset:0;background:rgba(15,25,40,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modal-mask.show{display:flex}
+.modal{background:#fff;border-radius:12px;width:min(900px,100%);max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal .m-head{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:#fafbfd}
+.modal .m-head h3{font-size:15px;font-weight:600;word-break:break-all}
+.modal .m-body{flex:1;overflow:auto;padding:16px;background:#f0f2f6}
+.modal iframe{width:100%;height:70vh;border:none;background:#fff;border-radius:6px}
+.modal .doc-body{background:#fff;padding:20px;border-radius:6px;min-height:300px}
+.modal .doc-body h1,h2,h3{color:var(--primary-dark)}
+.modal .doc-body table{border-collapse:collapse;width:100%}
+.modal .doc-body td,.modal .doc-body th{border:1px solid #ddd;padding:5px 8px}
+/* 打印 */
+@media print{
+  body{background:#fff}
+  .no-print{display:none!important}
+  .app{padding:0;max-width:100%}
+  .print-sheet{display:block!important;box-shadow:none!important;border:1px solid #000;border-radius:0}
+  .card{box-shadow:none;border:1px solid #ccc}
+  .modal-mask{display:none!important}
+}
+.print-sheet{display:none}
+.print-sheet table{width:100%;border-collapse:collapse;margin:8px 0}
+.print-sheet td,.print-sheet th{border:1px solid #000;padding:6px 8px;font-size:13px}
+.print-sheet .p-title{text-align:center;font-size:20px;font-weight:700;padding:8px 0 2px}
+.print-sheet .p-meta{display:flex;justify-content:space-between;font-size:12px;color:#333;margin:6px 0}
+.print-sheet .p-sec{font-weight:700;margin:12px 0 4px;font-size:14px}
+@media (max-width:720px){.grid,.account-card{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:stretch}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="topbar no-print">
+    <h1><span class="logo">报</span>公司报销管理小工具</h1>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn primary" onclick="newReceipt()">＋ 新建报销单</button>
+      <button class="btn" onclick="exportAll()">📤 导出全部(JSON)</button>
+      <button class="btn" onclick="importData()">📥 导入</button>
+      <button class="btn outline" onclick="exportCSV()">📄 导出汇总CSV</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="doImport(event)">
+    </div>
+  </div>
+
+  <!-- 列表视图 -->
+  <div id="listView">
+    <div class="card">
+      <div class="head"><h2>报销单列表</h2><span style="font-size:12px;color:var(--muted)" id="listCount"></span></div>
+      <div id="listBody"></div>
+    </div>
+  </div>
+
+  <!-- 编辑视图 -->
+  <div id="editView" style="display:none">
+    <div class="card">
+      <div class="head">
+        <h2 id="editTitle">编辑报销单</h2>
+        <div style="display:flex;gap:8px">
+          <button class="btn sm" onclick="saveReceipt()">💾 保存</button>
+          <button class="btn sm outline" onclick="showList()">← 返回列表</button>
+        </div>
+      </div>
+      <div class="body">
+        <div class="grid">
+          <div class="field">
+            <label>报销类型 <span class="req">*</span></label>
+            <input id="f_type" list="typeOptions" placeholder="请选择或输入报销类型">
+            <datalist id="typeOptions">
+              <option value="差旅费"></option><option value="交通费"></option><option value="餐饮费"></option>
+              <option value="住宿费"></option><option value="办公用品"></option><option value="业务招待"></option>
+              <option value="设备采购"></option><option value="技术服务费"></option><option value="咨询服务费"></option>
+              <option value="广告宣传"></option><option value="通讯费"></option><option value="培训费"></option><option value="其他"></option>
+            </datalist>
+          </div>
+          <div class="field">
+            <label>报销人 <span class="req">*</span></label>
+            <input id="f_person" list="personOptions" placeholder="请选择领取报销的人">
+            <datalist id="personOptions"></datalist>
+          </div>
+          <div class="field full">
+            <label>报销事由描述 <span class="req">*</span></label>
+            <textarea id="f_reason" placeholder="请填写报销事由，如：2026年8月赴成都参加工业软件大会差旅费用"></textarea>
+          </div>
+          <div class="field full">
+            <label>报销相关合同（如有）</label>
+            <div class="upload-box" onclick="document.getElementById('contractFile').click()">＋ 添加合同文件（PDF / Word）</div>
+            <input type="file" id="contractFile" accept=".pdf,.doc,.docx,.PDF,.DOC,.DOCX" multiple style="display:none" onchange="addFiles(event,'contract')">
+            <div class="attach-list" id="contractList"></div>
+          </div>
+          <div class="field full">
+            <label>报销相关的明细表及发票</label>
+            <div class="upload-box" onclick="document.getElementById('invoiceFile').click()">＋ 添加明细表 / 发票（PDF / Word）</div>
+            <input type="file" id="invoiceFile" accept=".pdf,.doc,.docx,.PDF,.DOC,.DOCX" multiple style="display:none" onchange="addFiles(event,'invoice')">
+            <div class="attach-list" id="invoiceList"></div>
+          </div>
+        </div>
+
+        <div style="margin-top:20px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <h3 style="font-size:14px;color:var(--primary-dark)">报销明细</h3>
+            <button class="btn sm primary" onclick="addItem()">＋ 添加明细</button>
+          </div>
+          <div class="note" style="margin-bottom:10px">💡 可点击「＋ 添加明细」复制多行，逐条填写费用类型、发生时间、金额与说明。</div>
+          <table class="items-table">
+            <thead>
+              <tr><th class="col-num">#</th><th class="col-type">费用类型</th><th class="col-date">发生时间</th><th class="col-amt">费用金额（元）</th><th>费用说明</th><th class="col-act">操作</th></tr>
+            </thead>
+            <tbody id="itemsBody"></tbody>
+          </table>
+          <div class="total-bar">合计金额：<span class="amt" id="totalAmt">0.00</span> 元</div>
+        </div>
+
+        <div style="margin-top:20px">
+          <h3 style="font-size:14px;color:var(--primary-dark);margin-bottom:8px">支付报销款的个人账号</h3>
+          <div class="note" style="margin-bottom:10px">💡 建议与提交报销申请的个人保持一致。</div>
+          <div class="account-card">
+            <div class="field"><label>收款人姓名</label><input id="f_acct_holder" placeholder="与报销人一致时自动填写"></div>
+            <div class="field"><label>收款账号</label><input id="f_acct_no" placeholder="银行卡号 / 支付宝 / 微信账号"></div>
+            <div class="field"><label>开户行（银行卡时填写）</label><input id="f_acct_bank" placeholder="如：中国工商银行北京海淀支行"></div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:22px;flex-wrap:wrap">
+          <button class="btn primary" onclick="saveReceipt()">💾 保存报销单</button>
+          <button class="btn success" onclick="printReceipt()">🖨 打印报销单</button>
+          <button class="btn outline" onclick="exportOne()">⬇ 导出本单(JSON)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 预览模态 -->
+<div class="modal-mask" id="previewMask" onclick="if(event.target===this)closePreview()">
+  <div class="modal">
+    <div class="m-head">
+      <h3 id="previewTitle"></h3>
+      <button class="btn sm outline" onclick="closePreview()">✕ 关闭</button>
+    </div>
+    <div class="m-body" id="previewBody"></div>
+  </div>
+</div>
+
+<!-- 打印单据 -->
+<div class="print-sheet" id="printSheet"></div>
+
+<script>
+/* ============ IndexedDB 封装 ============ */
+const DB='expenseAppDB', STORE='receipts';
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains(STORE))db.createObjectStore(STORE,{keyPath:'id'});};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+async function dbPut(rec){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(rec);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error);});}
+async function dbGetAll(){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(STORE,'readonly');const q=tx.objectStore(STORE).getAll();q.onsuccess=()=>res(q.result||[]);q.onerror=()=>rej(q.error);});}
+async function dbGet(id){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(STORE,'readonly');const q=tx.objectStore(STORE).get(id);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error);});}
+async function dbDel(id){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(id);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error);});}
+
+/* ============ 全局状态 ============ */
+let cur=null; // 当前编辑的报销单
+const TYPE_DEFAULTS=['差旅费','交通费','餐饮费','住宿费','办公用品','业务招待','设备采购','技术服务费','咨询服务费','广告宣传','通讯费','培训费','其他'];
+function newId(){return 'r'+Date.now()+Math.random().toString(36).slice(2,7);}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+
+/* ============ 视图切换 ============ */
+function showList(){document.getElementById('listView').style.display='';document.getElementById('editView').style.display='none';loadList();}
+function showEdit(){document.getElementById('listView').style.display='none';document.getElementById('editView').style.display='';}
+function newReceipt(){
+  cur={id:newId(),created_at:today(),updated_at:today(),type:'',person:'',reason:'',contract:[],invoice:[],items:[],acct:{holder:'',no:'',bank:''}};
+  fillForm();showEdit();document.getElementById('editTitle').textContent='新建报销单';
+}
+async function editReceipt(id){cur=await dbGet(id);if(!cur){alert('未找到该报销单');return;}fillForm();showEdit();document.getElementById('editTitle').textContent='编辑报销单';}
+
+/* ============ 表单填充 ============ */
+function fillForm(){
+  document.getElementById('f_type').value=cur.type||'';
+  document.getElementById('f_person').value=cur.person||'';
+  document.getElementById('f_reason').value=cur.reason||'';
+  document.getElementById('f_acct_holder').value=cur.acct.holder||'';
+  document.getElementById('f_acct_no').value=cur.acct.no||'';
+  document.getElementById('f_acct_bank').value=cur.acct.bank||'';
+  document.getElementById('itemsBody').innerHTML='';
+  (cur.items.length?cur.items:[{feeType:'',date:'',amount:'',note:''}]).forEach((it,i)=>addItem(it,i));
+  renderAttach('contract');renderAttach('invoice');
+}
+function collectForm(){
+  if(!cur)return;
+  cur.type=document.getElementById('f_type').value.trim();
+  cur.person=document.getElementById('f_person').value.trim();
+  cur.reason=document.getElementById('f_reason').value.trim();
+  cur.acct={holder:document.getElementById('f_acct_holder').value.trim(),no:document.getElementById('f_acct_no').value.trim(),bank:document.getElementById('f_acct_bank').value.trim()};
+  const rows=[...document.querySelectorAll('#itemsBody tr')];
+  cur.items=rows.map(r=>({feeType:r.querySelector('.it-type').value.trim(),date:r.querySelector('.it-date').value,amount:r.querySelector('.it-amt').value,note:r.querySelector('.it-note').value.trim()})).filter(i=>i.feeType||i.date||i.amount||i.note);
+  return cur;
+}
+
+/* ============ 明细 ============ */
+function addItem(item,idx){
+  const tb=document.getElementById('itemsBody');
+  const i=idx===undefined?tb.children.length:idx;
+  const it=item||{feeType:'',date:'',amount:'',note:''};
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td class="col-num">${i+1}</td>
+    <td class="col-type"><input class="it-type" list="typeOptions" value="${escAttr(it.feeType)}" placeholder="请选择"></td>
+    <td class="col-date"><input class="it-date" type="date" value="${escAttr(it.date)}"></td>
+    <td class="col-amt"><input class="it-amt" type="number" min="0" step="0.01" value="${escAttr(it.amount)}" placeholder="0.00" oninput="calcTotal()"></td>
+    <td><input class="it-note" value="${escAttr(it.note)}" placeholder="请填写费用说明"></td>
+    <td class="col-act"><button class="btn sm danger" onclick="this.closest('tr').remove();calcTotal();renum();">删</button></td>`;
+  tb.appendChild(tr);renum();calcTotal();
+}
+function renum(){[...document.querySelectorAll('#itemsBody tr')].forEach((r,i)=>r.querySelector('.col-num').textContent=i+1);}
+function calcTotal(){let s=0;[...document.querySelectorAll('.it-amt')].forEach(x=>{const v=parseFloat(x.value);if(!isNaN(v))s+=v;});document.getElementById('totalAmt').textContent=s.toFixed(2);}
+
+/* ============ 附件 ============ */
+async function addFiles(ev,kind){
+  const files=[...ev.target.files];
+  for(const f of files){
+    const ext=f.name.split('.').pop().toLowerCase();
+    if(!['pdf','doc','docx'].includes(ext)){alert('仅支持 PDF / Word（.doc/.docx）文件：'+f.name);continue;}
+    const blob=new Blob([await f.arrayBuffer()],{type:f.type});
+    cur[kind].push({name:f.name,size:f.size,blob});
+  }
+  ev.target.value='';renderAttach(kind);
+}
+function renderAttach(kind){
+  const box=document.getElementById(kind==='contract'?'contractList':'invoiceList');
+  box.innerHTML='';
+  (cur[kind]||[]).forEach((a,idx)=>{
+    const size=(a.size/1024).toFixed(0);
+    const icon=a.name.toLowerCase().endsWith('.pdf')?'📄':'📝';
+    const el=document.createElement('div');el.className='attach-item';
+    el.innerHTML=`<span class="icon">${icon}</span><span class="name" title="${escAttr(a.name)}">${escAttr(a.name)}</span><span style="color:var(--muted);font-size:11px">${size}KB</span>
+      <span class="act" onclick="previewFile('${kind}',${idx})">预览</span>
+      <span class="act" onclick="downloadFile('${kind}',${idx})">下载</span>
+      <span class="act del" onclick="removeFile('${kind}',${idx})">删除</span>`;
+    box.appendChild(el);
+  });
+}
+function removeFile(kind,idx){cur[kind].splice(idx,1);renderAttach(kind);}
+function downloadFile(kind,idx){const a=cur[kind][idx];const url=URL.createObjectURL(a.blob);const el=document.createElement('a');el.href=url;el.download=a.name;el.click();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+function previewFile(kind,idx){
+  const a=cur[kind][idx];
+  document.getElementById('previewTitle').textContent=a.name;
+  const body=document.getElementById('previewBody');
+  const isPdf=a.name.toLowerCase().endsWith('.pdf');
+  body.innerHTML='';
+  if(isPdf){
+    const url=URL.createObjectURL(a.blob);
+    body.innerHTML=`<iframe src="${url}"></iframe>`;
+  }else{
+    body.innerHTML='<div class="doc-body" id="docBody"><p style="color:#888">正在解析 Word 文档…</p></div>';
+    if(window.mammoth){
+      a.blob.arrayBuffer().then(buf=>mammoth.convertToHtml({arrayBuffer:buf})).then(r=>{
+        document.getElementById('docBody').innerHTML=r.value;
+      }).catch(()=>{document.getElementById('docBody').innerHTML='<p style="color:#c62828">Word 文档解析失败，可点击「下载」用本机 Word 打开。</p>';});
+    }else{
+      document.getElementById('docBody').innerHTML='<p style="color:#f9a825">未加载解析组件（需联网首次加载），可点击「下载」用本机 Word 打开。</p>';
+    }
+  }
+  document.getElementById('previewMask').classList.add('show');
+}
+function closePreview(){document.getElementById('previewMask').classList.remove('show');document.getElementById('previewBody').innerHTML='';}
+
+/* ============ 保存/删除 ============ */
+async function saveReceipt(){
+  collectForm();
+  if(!cur.type||!cur.person||!cur.reason){alert('请填写报销类型、报销人和报销事由描述（必填项）。');return;}
+  if(cur.items.length===0){alert('请至少填写一条报销明细，或先删除空明细行。');return;}
+  cur.updated_at=today();
+  await dbPut(cur);
+  alert('报销单已保存 ✓');
+  showList();
+}
+async function delReceipt(id){
+  if(!confirm('确定删除该报销单？附件数据将一并删除。'))return;
+  await dbDel(id);loadList();
+}
+
+/* ============ 列表 ============ */
+async function loadList(){
+  const all=await dbGetAll();
+  all.sort((a,b)=>(b.updated_at||'').localeCompare(a.updated_at||''));
+  document.getElementById('listCount').textContent=all.length?`共 ${all.length} 张`:'';
+  const body=document.getElementById('listBody');
+  body.innerHTML='';
+  if(!all.length){body.innerHTML='<div class="empty">还没有报销单，点击右上角「＋ 新建报销单」开始。</div>';return;}
+  const persons=[...new Set(all.map(r=>r.person).filter(Boolean))];
+  const ds=document.getElementById('personOptions');ds.innerHTML=persons.map(p=>`<option value="${escAttr(p)}">`).join('');
+  all.forEach(r=>{
+    const total=r.items.reduce((s,i)=>{const v=parseFloat(i.amount);return s+(isNaN(v)?0:v);},0);
+    const row=document.createElement('div');row.className='list-row';
+    row.innerHTML=`
+      <div class="info" style="cursor:pointer" onclick="editReceipt('${r.id}')">
+        <div class="t">${escAttr(r.reason||'(未填事由)')}<span class="badge">${escAttr(r.type||'未分类')}</span></div>
+        <div class="s">报销人：${escAttr(r.person||'—')} ｜ 更新：${escAttr(r.updated_at||'')} ｜ 明细 ${r.items.length} 条</div>
+      </div>
+      <div class="amt">¥ ${total.toFixed(2)}</div>
+      <button class="btn sm outline" onclick="printOne('${r.id}')">🖨</button>
+      <button class="btn sm outline" onclick="exportOne('${r.id}')">⬇</button>
+      <button class="btn sm danger" onclick="delReceipt('${r.id}')">删</button>`;
+    body.appendChild(row);
+  });
+}
+
+/* ============ 打印 ============ */
+function buildPrintHTML(r){
+  const total=r.items.reduce((s,i)=>{const v=parseFloat(i.amount);return s+(isNaN(v)?0:v);},0);
+  const rows=r.items.map((it,i)=>`<tr><td>${i+1}</td><td>${esc(it.feeType)}</td><td>${esc(it.date)}</td><td style="text-align:right">${esc(it.amount)}</td><td>${esc(it.note)}</td></tr>`).join('');
+  return `
+    <div style="padding:24px">
+      <div class="p-title">公司报销单</div>
+      <div class="p-meta"><span>编号：${r.id}</span><span>填单日期：${r.updated_at||r.created_at}</span></div>
+      <table>
+        <tr><th style="width:110px">报销类型</th><td colspan="3">${esc(r.type)}</td></tr>
+        <tr><th>报销人</th><td>${esc(r.person)}</td><th style="width:110px">报销事由</th><td>${esc(r.reason)}</td></tr>
+      </table>
+      <div class="p-sec">报销明细</div>
+      <table>
+        <tr><th style="width:36px">#</th><th>费用类型</th><th>发生时间</th><th style="width:120px">金额（元）</th><th>费用说明</th></tr>
+        ${rows}
+        <tr><td colspan="3" style="text-align:right;font-weight:700">合计</td><td style="text-align:right;font-weight:700">${total.toFixed(2)}</td><td></td></tr>
+      </table>
+      <div class="p-sec">附件</div>
+      <table><tr><th>相关合同</th><td>${r.contract.map(a=>esc(a.name)).join('、')||'—'}</td></tr>
+      <tr><th>明细表及发票</th><td>${r.invoice.map(a=>esc(a.name)).join('、')||'—'}</td></tr></table>
+      <div class="p-sec">支付账号</div>
+      <table><tr><th style="width:110px">收款人</th><td>${esc(r.acct.holder)}</td><th style="width:110px">账号</th><td>${esc(r.acct.no)}</td><th style="width:110px">开户行</th><td>${esc(r.acct.bank)}</td></tr></table>
+      <div style="display:flex;justify-content:space-between;margin-top:40px">
+        <div>报销人签字：＿＿＿＿＿＿</div><div>财务审核：＿＿＿＿＿＿</div><div>审批：＿＿＿＿＿＿</div>
+      </div>
+    </div>`;
+}
+function printReceipt(){collectForm();if(!cur.reason){alert('请先填写报销内容');return;}document.getElementById('printSheet').innerHTML=buildPrintHTML(cur);document.getElementById('printSheet').style.display='block';window.print();setTimeout(()=>{document.getElementById('printSheet').style.display='none';},300);}
+async function printOne(id){const r=await dbGet(id);if(!r)return;document.getElementById('printSheet').innerHTML=buildPrintHTML(r);document.getElementById('printSheet').style.display='block';window.print();setTimeout(()=>{document.getElementById('printSheet').style.display='none';},300);}
+
+/* ============ 导出/导入 ============ */
+async function exportOne(id){
+  const r=id?await dbGet(id):collectForm();
+  if(!r)return;
+  const data={...r,contract:(r.contract||[]).map(a=>({name:a.name,size:a.size})),invoice:(r.invoice||[]).map(a=>({name:a.name,size:a.size}))};
+  downloadJSON(`报销单_${r.person||'未填'}_${(r.updated_at||r.created_at||'').replace(/-/g,'')}.json`,data);
+}
+async function exportAll(){
+  const all=await dbGetAll();
+  const data=all.map(r=>({...r,contract:(r.contract||[]).map(a=>({name:a.name,size:a.size})),invoice:(r.invoice||[]).map(a=>({name:a.name,size:a.size}))}));
+  downloadJSON('全部报销单_'+today().replace(/-/g,'')+'.json',data);
+}
+function downloadJSON(name,obj){
+  const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+function importData(){document.getElementById('importFile').click();}
+function doImport(ev){
+  const f=ev.target.files[0];if(!f)return;
+  const reader=new FileReader();
+  reader.onload=async()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      const list=Array.isArray(data)?data:[data];
+      let n=0;
+      for(const r of list){
+        if(!r.id||!r.items)continue;
+        await dbPut({id:r.id,created_at:r.created_at||today(),updated_at:r.updated_at||today(),type:r.type||'',person:r.person||'',reason:r.reason||'',contract:r.contract||[],invoice:r.invoice||[],items:r.items||[],acct:r.acct||{holder:'',no:'',bank:''}});
+        n++;
+      }
+      alert(`导入成功：${n} 张报销单（注：附件文件需原机留存，导入仅含文件名与明细）`);
+      showList();
+    }catch(e){alert('导入失败：文件格式不正确');}
+  };
+  reader.readAsText(f);ev.target.value='';
+}
+function exportCSV(){
+  dbGetAll().then(all=>{
+    if(!all.length){alert('暂无数据');return;}
+    const rows=[['编号','报销类型','报销人','报销事由','费用类型','发生时间','金额(元)','费用说明','收款人','收款账号','开户行','单据日期']];
+    all.forEach(r=>{(r.items.length?r.items:[{}]).forEach(it=>{rows.push([r.id,r.type,r.person,'"'+String(r.reason||'').replace(/"/g,'""')+'"',it.feeType||'',it.date||'',it.amount||'',it.note||'',r.acct.holder||'',r.acct.no||'',r.acct.bank||'',r.updated_at||'']);});});
+    const csv='\ufeff'+rows.map(r=>r.join(',')).join('\n');
+    const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='报销汇总_'+today().replace(/-/g,'')+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
+  });
+}
+
+/* ============ 工具 ============ */
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escAttr(s){return esc(s).replace(/"/g,'&quot;');}
+
+/* ============ 初始化 ============ */
+loadList();
+</script>
+</body>
+</html>
