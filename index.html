@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>朗境酒庄 · Chateau Langjing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#F8F6F2;
+  --bg-soft:#EFEBE3;
+  --line:#C9C3B6;
+  --line-soft:#E1DCD0;
+  --ink:#1B1A18;
+  --ink-soft:#3A3833;
+  --ink-mute:#7E7A6F;
+  --gold:#A88A55;
+  --cjk:"Noto Serif SC", "Songti SC", "STSong", serif;
+  --eng:"Cormorant Garamond", "Times New Roman", serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--cjk);font-weight:300;line-height:1.85;font-size:16px;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%;height:auto}
+.serif-eng{font-family:var(--eng);font-weight:400;letter-spacing:.04em}
+.muted{color:var(--ink-mute)}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity 1.1s ease, transform 1.1s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ============ Top bar ============ */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 36px;
+  background:rgba(248,246,242,.86);
+  backdrop-filter:saturate(140%) blur(8px);
+  -webkit-backdrop-filter:saturate(140%) blur(8px);
+  border-bottom:1px solid var(--line-soft);
+}
+.topbar .brand{font-family:var(--cjk);font-weight:400;letter-spacing:.12em;font-size:15px;color:var(--ink)}
+.topbar .brand .eng{font-family:var(--eng);font-style:italic;letter-spacing:.08em;color:var(--ink-mute);margin-left:14px;font-size:15px}
+.topbar .lang{display:flex;gap:18px}
+.topbar .lang button{background:none;border:none;cursor:pointer;color:var(--ink-mute);font-family:var(--eng);font-size:15px;letter-spacing:.06em;padding:0;transition:color .25s ease}
+.topbar .lang button:hover{color:var(--ink)}
+.topbar .lang button.active{color:var(--ink);border-bottom:1px solid var(--gold);padding-bottom:2px}
+.topbar .lang .sep{color:var(--line)}
+
+/* ============ Hero (text-only, no bg cover) ============ */
+main{margin-top:74px}
+.hero{max-width:1180px;margin:0 auto;padding:140px 36px 60px;text-align:left}
+.hero__eyebrow{font-family:var(--eng);font-style:italic;letter-spacing:.32em;color:var(--ink-mute);font-size:13px;margin-bottom:28px;text-transform:uppercase}
+.hero__title{font-family:var(--cjk);font-weight:300;font-size:64px;line-height:1.25;letter-spacing:.04em;color:var(--ink);margin-bottom:20px}
+.hero__title .em{font-style:italic;font-weight:400}
+.hero__sub{font-family:var(--eng);font-style:italic;font-size:23px;color:var(--ink-soft);letter-spacing:.06em;margin-bottom:40px}
+.hero__line{width:72px;height:1px;background:var(--ink);margin-bottom:40px}
+.hero__lead{font-family:var(--cjk);font-weight:300;font-size:19px;line-height:2;color:var(--ink-soft);max-width:600px}
+
+/* ============ Natural images (no crop, keep ratio) ============ */
+.fig{margin:70px auto;padding:0 36px}
+.fig img{width:100%;height:auto;display:block}
+.fig--w{max-width:1180px}          /* landscape: full width */
+.fig--m{max-width:860px}           /* mid-width */
+.fig--v{max-width:520px}           /* portrait: narrow centered */
+.fig--l{max-width:400px}           /* ultra-long banner: narrow */
+.fig figcaption{font-family:var(--eng);font-style:italic;font-size:13px;letter-spacing:.18em;color:var(--ink-mute);margin-top:18px;text-align:center;text-transform:uppercase}
+
+/* ============ Chapter ============ */
+.chapter{display:flex;flex-direction:column;align-items:flex-start;max-width:1180px;margin:0 auto;padding:150px 36px 60px}
+.chapter__index{font-family:var(--eng);font-style:italic;font-size:14px;letter-spacing:.42em;color:var(--ink-mute);margin-bottom:22px;text-transform:uppercase}
+.chapter__title{font-family:var(--cjk);font-weight:300;font-size:46px;line-height:1.35;color:var(--ink);letter-spacing:.06em}
+.chapter__title .em{font-style:italic}
+.chapter__sub{font-family:var(--eng);font-style:italic;color:var(--ink-mute);font-size:22px;margin-top:16px;letter-spacing:.06em}
+
+/* ============ Prose ============ */
+.prose{max-width:760px;margin:0 auto;padding:0 36px}
+.prose p{font-family:var(--cjk);font-weight:300;font-size:17px;line-height:2.2;color:var(--ink-soft);margin-bottom:1.6em}
+.prose em{font-family:var(--eng);font-style:italic;color:var(--ink);font-weight:400;letter-spacing:.05em}
+.prose .lead{font-size:20px;font-weight:300;color:var(--ink);line-height:2;text-align:justify;margin-bottom:2em}
+.subhead{font-family:var(--cjk);font-weight:400;font-size:24px;letter-spacing:.04em;color:var(--ink);margin-top:2.4em;margin-bottom:.8em}
+.subhead .no{display:inline-block;width:36px;font-family:var(--eng);font-style:italic;font-size:18px;color:var(--gold);margin-right:14px;vertical-align:2px}
+
+/* ============ Split layout (text + portrait) ============ */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1180px;margin:80px auto;padding:0 36px}
+.split .prose{margin:0;padding:0;max-width:520px}
+.split .fig{margin:0;padding:0}
+
+/* ============ Quote ============ */
+.quote{text-align:center;padding:110px 36px;max-width:900px;margin:0 auto}
+.quote__lead{font-family:var(--cjk);font-weight:300;font-size:29px;line-height:2;color:var(--ink);letter-spacing:.06em}
+.quote__lead .em{font-style:italic}
+.quote__attr{font-family:var(--eng);font-style:italic;color:var(--ink-mute);letter-spacing:.22em;font-size:14px;margin-top:26px;text-transform:uppercase}
+
+/* ============ Coda ============ */
+.coda{max-width:1180px;margin:0 auto;padding:140px 36px 80px;text-align:center}
+.coda__small{font-family:var(--eng);font-style:italic;font-size:13px;letter-spacing:.36em;color:var(--ink-mute);margin-bottom:24px;text-transform:uppercase}
+.coda__title{font-family:var(--cjk);font-weight:300;font-size:46px;letter-spacing:.08em;color:var(--ink)}
+.coda__body{font-family:var(--cjk);font-weight:300;font-size:18px;line-height:2;color:var(--ink-soft);max-width:620px;margin:36px auto 0}
+
+/* ============ Footer ============ */
+footer{padding:80px 36px 56px;text-align:center;border-top:1px solid var(--line-soft);background:var(--bg)}
+.foot__brand{font-family:var(--cjk);font-weight:300;font-size:18px;letter-spacing:.3em;color:var(--ink);margin-bottom:10px}
+.foot__eng{font-family:var(--eng);font-style:italic;color:var(--ink-mute);font-size:16px;letter-spacing:.18em;margin-bottom:30px}
+.foot__line{width:60px;height:1px;background:var(--line);margin:24px auto}
+.foot__meta{font-family:var(--eng);font-size:12px;letter-spacing:.3em;color:var(--ink-mute);text-transform:uppercase}
+
+/* ============ Lang ============ */
+[data-lang="en"] .zh{display:none!important}
+[data-lang="zh"] .en{display:none!important}
+
+/* ============ Responsive ============ */
+@media (max-width:900px){
+  .hero{padding:110px 22px 50px}
+  .hero__title{font-size:42px}
+  .hero__sub{font-size:18px}
+  .hero__lead{font-size:16px}
+  .chapter{padding:90px 22px 50px}
+  .chapter__title{font-size:34px}
+  .prose{padding:0 22px}
+  .fig{padding:0 22px}
+  .split{grid-template-columns:1fr;gap:30px;padding:0 22px}
+  .quote__lead{font-size:22px}
+  .coda{font-size:0;padding:100px 22px 60px}
+  .coda__title{font-size:34px}
+  .coda__body{font-size:16px}
+  .topbar{padding:14px 22px}
+  .topbar .brand .eng{display:none}
+}
+</style>
+</head>
+<body data-lang="zh">
+
+<header class="topbar">
+  <div class="brand">朗境酒庄 <span class="eng">Chateau Langjing</span></div>
+  <nav class="lang">
+    <button data-set="zh" class="active">ZH</button>
+    <span class="sep">·</span>
+    <button data-set="en">EN</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============== Hero ============== -->
+<section class="hero">
+  <div class="hero__eyebrow">Meili · 28°N · Yunnan · China</div>
+  <h1 class="hero__title">秘境之酿<br><span class="em">A Vineyard at the Edge of Sky</span></h1>
+  <div class="hero__sub">In the folds of the Hengduan Mountains, where three rivers run.</div>
+  <div class="hero__line"></div>
+  <p class="hero__lead">
+    <span class="zh">在横断山脉深处、三江并流的腹地，北纬二十八度的雪域高原上，朗境酒庄悄然生根。这里是被梅里雪山与白马雪山环抱的藏地秘境，山地绵延，森林覆盖，天地辽阔。朗境酒庄在这片被时间厚爱的土地上，开启属于自己的篇章。</span>
+    <span class="en">At the heart of the Hengduan Mountains, where three great rivers run in parallel, on a snow plateau set at the twenty-eighth parallel north, Chateau Langjing puts down quiet roots. Here we are held in the embrace of Meili Snow Mountain and Baima Snow Mountain — an open land of forest and ridge, vast and unhurried. A land that time itself has been kind to, and where we have come to write our first chapter.</span>
+  </p>
+</section>
+
+<!-- Hero landscape (natural, 4:3) -->
+<figure class="fig fig--w reveal">
+  <img src="images/hero-snowpeak.jpg" alt="梅里雪山云海">
+  <figcaption class="zh">Meili Snow Mountain, seen through the morning cloud</figcaption>
+  <figcaption class="en" style="display:none">梅里雪山 · 晨云之中的雪峰</figcaption>
+</figure>
+
+<!-- ============== 一 · 秘境之酿 ============== -->
+<section class="chapter">
+  <div class="chapter__index zh">Part One</div>
+  <div class="chapter__index en">Part · One</div>
+  <h2 class="chapter__title zh">秘境之酿 <span class="em">A Vineyard at the Edge of Sky</span></h2>
+  <h2 class="chapter__title en" style="display:none">A Vineyard at the Edge of Sky <span class="em">秘境之酿</span></h2>
+  <div class="chapter__sub zh">于天地辽阔之处，写下我们与时间的第一份答卷</div>
+  <div class="chapter__sub en" style="display:none">To begin, where the land is wide and the sky is honest.</div>
+</section>
+
+<!-- Ultra-long banner: autumn valley (1:4, narrow column) -->
+<figure class="fig fig--l reveal">
+  <img src="images/brand-extra.jpg" alt="横断山脉秋季云海长卷">
+  <figcaption class="zh">An Autumn Veil over the Hengduan · 横 云 掠 雪</figcaption>
+  <figcaption class="en" style="display:none">横 云 掠 雪 · An Autumn Veil over the Hengduan</figcaption>
+</figure>
+
+<div class="prose reveal">
+  <p class="lead zh">产区的葡萄酒历史可追溯至百年前——法国传教士在茨中村种下第一株葡萄，老藤至今仍在生长。百年后的今天，朗境酒庄在这片被时间厚爱的土地上，开启属于自己的篇章。</p>
+  <p class="lead en" style="display:none">The viticultural history of this land runs back almost a century, when French missionaries, in the village of Cizhong, planted the first vines — old trunks that still bear fruit to this day. A hundred years on, Chateau Langjing opens its first chapter on this same, time-tended land.</p>
+</div>
+
+<div class="quote reveal">
+  <div class="quote__lead zh">我们不与时间赛跑——<br>我们与时间对话。<span class="em">We do not race with time. We listen to it.</span></div>
+  <div class="quote__lead en" style="display:none">我们不与时间赛跑——<br>我们与时间对话。<span class="em">We do not race with time. We listen to it.</span></div>
+  <div class="quote__attr">— Chateau Langjing</div>
+</div>
+
+<!-- ============== 二 · 风土 ============== -->
+<section class="chapter">
+  <div class="chapter__index zh">Part Two</div>
+  <div class="chapter__index en">Part · Two</div>
+  <h2 class="chapter__title zh">风土 <span class="em">Terroir · The Gift of the Plateau</span></h2>
+  <h2 class="chapter__title en" style="display:none">Terroir <span class="em">The Gift of the Plateau · 风土</span></h2>
+  <div class="chapter__sub zh">雪域高原的天赋</div>
+  <div class="chapter__sub en" style="display:none">The gift of the high snow plateau.</div>
+</section>
+
+<div class="prose reveal">
+  <h3 class="subhead zh"><span class="no">i.</span>海拔 · 垂直的奇迹</h3>
+  <h3 class="subhead en" style="display:none"><span class="no">i.</span>Altitude · A Vertical Miracle</h3>
+  <p class="zh">朗境酒庄扎根于德钦梅里产区，葡萄园分布在海拔两千米以上的垂直带上。这里是中国少数不需要冬季埋土防寒的产区。高海拔带来凉爽的气温、显著的昼夜温差，以及强度极高的紫外线——让葡萄在含糖量攀升之前，便能实现酚类物质的充分成熟，同时保有清冽的酸度。</p>
+  <p class="en" style="display:none">Chateau Langjing is rooted in the Deqin Meili appellation, our parcels arrayed along a vertical belt above two thousand metres. This is one of the very few corners of China where the vine need not be buried against the winter cold. Cool nights and large diurnal swings, paired with the intensity of the high-altitude light, allow the skins to ripen their phenolics fully — and the fruit to retain, always, a spine of clear mountain acidity.</p>
+</div>
+
+<!-- Vineyard panorama (landscape) -->
+<figure class="fig fig--m reveal">
+  <img src="images/terroir-vineyard-view.jpg" alt="葡萄园全景">
+  <figcaption class="zh">The vineyard, drawn against the ridge</figcaption>
+  <figcaption class="en" style="display:none">依 山 而 立 的 葡 萄 园</figcaption>
+</figure>
+
+<div class="prose reveal">
+  <h3 class="subhead zh"><span class="no">ii.</span>气候 · 寒温带的高原韵律</h3>
+  <h3 class="subhead en" style="display:none"><span class="no">ii.</span>Climate · A Rhythm of the Cold-Temperate</h3>
+  <p class="zh">产区属低纬度高海拔寒温带季风性气候，日照充足，降水适中。南亚季风与喜马拉雅冷风在此交汇，不同山谷间的降水差异悬殊，糖分积累与酸度表现各具个性。适度的水分胁迫让果粒更小、皮果比更高，风味因此更加凝聚。</p>
+  <p class="en" style="display:none">The appellation sits in a low-latitude yet high-altitude cold-temperate monsoon climate — abundant light, measured rain. The South Asian monsoon meets the Himalayan cold here, and precipitation varies wildly between valleys, lending each cluster its own personality of sugar and acidity. A measured water stress keeps berries small, lifts the skin-to-juice ratio, and concentrates the flavour into something quietly fierce.</p>
+</div>
+
+<div class="prose reveal">
+  <h3 class="subhead zh"><span class="no">iii.</span>土壤 · 大地的语言</h3>
+  <h3 class="subhead en" style="display:none"><span class="no">iii.</span>Soils · A Language of the Earth</h3>
+  <p class="zh">梅里产区的土壤是地质运动的活化石。横断山脉的形成比喜马拉雅山脉更为古老，数亿年的碰撞挤压，造就了以碳酸盐岩、火山岩、碎屑岩三大母岩为主的地质格局。土壤富含砂石，透气性极佳，石块白天储热、夜间释放，为葡萄根系营造稳定的温度环境。土壤中可交换钙含量极高，让葡萄保留更多天然酒石酸，酒体带有清晰的咸矿感与挺拔的骨架。</p>
+  <p class="en" style="display:none">The soils of the Meili appellation are living fossils of geology. The Hengduan range is older than the Himalaya: hundreds of millions of years of collision have built a substrate of carbonate rocks, volcanic rocks and clastic debris. The soil runs warm with sand and gravel; its stones hold the day's heat and release it at night, cradling the roots in steady temperatures. Exchangeable calcium is exceptionally high, which preserves natural tartaric acidity in the fruit — a defined saline-mineral thread, a quietly architectural spine.</p>
+</div>
+
+<!-- Grape close-up (landscape) -->
+<figure class="fig fig--w reveal">
+  <img src="images/terroir-grape.jpg" alt="葡萄特写">
+  <figcaption class="zh">Cluster in the high-altitude light</figcaption>
+  <figcaption class="en" style="display:none">高 原 光 下 的 果 串</figcaption>
+</figure>
+
+<!-- Split: text + portrait vineyard -->
+<div class="split reveal">
+  <div class="prose">
+    <p class="zh">产区内不同地块因其海拔、朝向、坡度的差异，被精准匹配到最适宜的品种——高处的霞多丽与黑皮诺，中段的黑皮诺，低处的梅洛与赤霞珠，各得其所。</p>
+    <p class="en" style="display:none">Across the appellation, each parcel — different in altitude, aspect and gradient — is matched, deliberately, to the variety that suits it best. Chardonnay and Pinot Noir above. Pinot Noir in the middle band. Merlot and Cabernet Sauvignon below. Each rooted where it belongs.</p>
+  </div>
+  <figure class="fig fig--v">
+    <img src="images/hero-vineyard.jpg" alt="葡萄园主视觉">
+    <figcaption class="zh">Rows turning with the slope</figcaption>
+    <figcaption class="en" style="display:none">顺 坡 而 行 的 行 列</figcaption>
+  </figure>
+</div>
+
+<!-- ============== 三 · 藏地人文 ============== -->
+<section class="chapter">
+  <div class="chapter__index zh">Part Three</div>
+  <div class="chapter__index en">Part · Three</div>
+  <h2 class="chapter__title zh">藏地人文 <span class="em">People & Faith, at the Foot of Snow</span></h2>
+  <h2 class="chapter__title en" style="display:none">People & Faith, at the Foot of Snow <span class="em">藏地人文</span></h2>
+  <div class="chapter__sub zh">雪山脚下的生活与信仰</div>
+  <div class="chapter__sub en" style="display:none">Life and faith at the foot of snow.</div>
+</section>
+
+<div class="prose reveal">
+  <p class="zh">德钦县居民以藏族为主，少数民族占比极高。战国时期古羌人最先抵达这片土地，唐代吐蕃部族从西藏迁入，与古羌人融合，形成了今天的藏族居民。先民们依据光照、水源、地质灾害风险与交通条件，世代试错，最终形成了今天错落有致的村落分布。</p>
+  <p class="en" style="display:none">The population of Deqin is overwhelmingly Tibetan. The ancient Qiang first arrived in this country during the Warring States period; in the Tang, the Tibetan tribes of the Tubo kingdom migrated east from Tibet and merged with them — and the Tibetan people we know today are the fruit of that long union. Working from the four constraints of light, water, geological risk and access, generation after generation of these people have, by trial and error, settled the villages in the order we now see them — strung across the ridges like beads.</p>
+</div>
+
+<!-- Portrait: village terrace -->
+<figure class="fig fig--v reveal">
+  <img src="images/culture-village-terrace.jpg" alt="村落梯田">
+  <figcaption class="zh">Terraces held in the mountain's hand</figcaption>
+  <figcaption class="en" style="display:none">山 掌 中 的 梯 田</figcaption>
+</figure>
+
+<!-- Split: text + portrait child -->
+<div class="split reveal">
+  <figure class="fig fig--v">
+    <img src="images/culture-tibetan-child.jpg" alt="藏族小孩">
+    <figcaption class="zh">A child of the plateau</figcaption>
+    <figcaption class="en" style="display:none">雪 山 下 的 孩 子</figcaption>
+  </figure>
+  <div class="prose">
+    <p class="zh">产区农业人口人均耕地极少，朗境与当地农户建立了紧密的合作模式——企业提供技术与管理，农户负责日常栽培、手工采收与手工分选。由于地块坡度极陡、道路狭窄，几乎无法使用机械，全流程依赖手工；手工分选会淘汰相当比例的不合格果粒。农户养殖牦牛需要草料，因此主动定期人工除草，形成了一种朴素而可持续的双赢方式。</p>
+    <p class="en" style="display:none">Per-capita farmland here is among the smallest in the country. We work in a close, hand-in-hand partnership with the local farmers — we provide the technology and the management; they provide the daily cultivation, the hand-picking and the hand-sorting. The slopes are too steep and the paths too narrow for any machine to enter. A meaningful share of fruit is culled by hand at the sorting table. And because the yaks the farmers keep need forage, they pull the weeds by hand throughout the season — a humble, sustainable partnership on both sides.</p>
+  </div>
+</div>
+
+<!-- Landscape: stupa with snow -->
+<figure class="fig fig--w reveal">
+  <img src="images/culture-stupa-snowpeak.jpg" alt="白塔雪山">
+  <figcaption class="zh">A stupa in the snow wind</figcaption>
+  <figcaption class="en" style="display:none">雪 风 中 的 白 塔</figcaption>
+</figure>
+
+<!-- Split: text + portrait cultivator -->
+<div class="split reveal">
+  <div class="prose">
+    <p class="zh">酒庄毗邻白马雪山国家级自然保护区，环保是发展的底线。而酒庄的未来规划中，也包含了农旅融合的探索——利用现有建筑改造为工作室与住宿设施，结合牦牛养殖开发奶酪、蜂蜜等在地衍生产品，让每一位到访者都能在品尝美酒的同时，沉浸于藏地四季的流转。</p>
+    <p class="en" style="display:none">Our estate lies next to the Baima Snow Mountain National Nature Reserve, and conservation is the floor upon which everything else must stand. In our future planning, we have begun to explore an agriculture-and-hospitality model: adapting existing buildings into studios and lodges, developing yak-derived products — cheese, honey — alongside the wine, so that every visitor who comes to taste can also live, for a time, inside the changing seasons of this high country.</p>
+  </div>
+  <figure class="fig fig--v">
+    <img src="images/terroir-vineyard-cultivator.jpg" alt="葡萄园劳动者">
+    <figcaption class="zh">Hands in the vineyard</figcaption>
+    <figcaption class="en" style="display:none">葡 萄 园 中 的 双 手</figcaption>
+  </figure>
+</div>
+
+<!-- ============== 四 · 品质追求 ============== -->
+<section class="chapter">
+  <div class="chapter__index zh">Part Four</div>
+  <div class="chapter__index en">Part · Four</div>
+  <h2 class="chapter__title zh">品质追求 <span class="em">Small, Precise, and Patient</span></h2>
+  <h2 class="chapter__title en" style="display:none">Small, Precise, and Patient <span class="em">品质追求</span></h2>
+  <div class="chapter__sub zh">小而精，少而珍</div>
+  <div class="chapter__sub en" style="display:none">A boutique of a few bottles.</div>
+</section>
+
+<div class="prose reveal">
+  <h3 class="subhead zh"><span class="no">i.</span>严控产量，质量优先</h3>
+  <h3 class="subhead en" style="display:none"><span class="no">i.</span>Yields Restrained, Quality First</h3>
+  <p class="zh">朗境酒庄的年产量严格控制在极低的水平，单产维持在精品小农庄的标准。这个数字意味着每一瓶酒都承载着对品质的极致执着——不做规模，只做精品。</p>
+  <p class="en" style="display:none">The annual production of Chateau Langjing is held, deliberately, to a very low number — the yield discipline of a small grower-craft house. That figure means: every bottle we release is the fruit of an absolute, uncompromising commitment. We do not scale; we refine.</p>
+</div>
+
+<!-- Split: portrait detail + text -->
+<div class="split reveal">
+  <figure class="fig fig--v">
+    <img src="images/quality-detail.png" alt="品鉴细节">
+    <figcaption class="zh">A detail of the craft</figcaption>
+    <figcaption class="en" style="display:none">工 艺 的 细 节</figcaption>
+  </figure>
+  <div class="prose">
+    <h3 class="subhead zh"><span class="no">ii.</span>海拔分区的品种布局</h3>
+    <h3 class="subhead en" style="display:none"><span class="no">ii.</span>A Varietal Map by Altitude</h3>
+    <p class="zh">酒庄按照海拔精细布局品种：中低海拔种植赤霞珠，更高处种植西拉，最高处种植黑皮诺与霞多丽。同时，规划了一块纯黑皮诺单一园，对标勃艮第顶级名庄理念，定位高端稀缺酒款。</p>
+    <p class="en" style="display:none">Each variety is plotted with care along the altitude gradient: Cabernet Sauvignon in the lower and middle bands, Syrah higher, and at the very top — Pinot Noir and Chardonnay. Within this map, we have reserved a single-parcel Pinot Noir — a high-altitude monopole, conceived against the Burgundian ideal, intended as a rare and singular cuvée.</p>
+  </div>
+</div>
+
+<!-- Interior tasting room (landscape, kept original ratio) -->
+<figure class="fig fig--w reveal">
+  <img src="images/terroir-misty-hills.jpg" alt="室内品鉴陈列">
+  <figcaption class="zh">The hearthroom · six bottles in soft light</figcaption>
+  <figcaption class="en" style="display:none">静 室 安 瓶 · 炉 火 融 光</figcaption>
+</figure>
+
+<div class="prose reveal">
+  <h3 class="subhead zh"><span class="no">iii.</span>向世界顶级标准看齐</h3>
+  <h3 class="subhead en" style="display:none"><span class="no">iii.</span>Toward the World's Highest Benchmarks</h3>
+  <p class="zh">在种植策略上，朗境对标勃艮第顶级名庄经验，尝试大幅提升种植密度，通过增加根系竞争来提升果实品质。首个年份将采用收购葡萄与租赁葡萄园的方式酿造，已锁定适龄霞多丽和树龄更长的老藤霞多丽等优质原料。</p>
+  <p class="en" style="display:none">In the vineyard, we follow Burgundian grands crus as our standard — radically tighter planting density, so that the roots compete and the fruit concentrates. Our first vintage will be made from purchased and leased fruit: we have already secured good parcels of mature Chardonnay, and parcels of much older Chardonnay on long-term lease.</p>
+  <p class="zh">酒庄同时探索生物动力法种植的可能性，寻求更自然、更可持续的耕作方式，让每一株葡萄都能真实地表达脚下这片土地。</p>
+  <p class="en" style="display:none">We are also exploring the path of biodynamic practice — a more natural, more sustainable way of husbandry — so that each vine may speak, in its fruit, the precise truth of the soil that grew it.</p>
+</div>
+
+<!-- ============== 五 · 结语 ============== -->
+<section class="coda">
+  <div class="coda__small zh">Coda · The Last Glass</div>
+  <div class="coda__small en" style="display:none">Coda · The Last Glass</div>
+  <h2 class="coda__title zh">让世界品尝雪山</h2>
+  <h2 class="coda__title en" style="display:none">So that the world may taste the snow.</h2>
+  <p class="coda__body zh">朗境酒庄坐落于梅里雪山脚下，与这片藏地秘境共同呼吸。这里的每一粒葡萄，都经历了高海拔的凛冽、紫外线的淬炼、昼夜温差的雕琢，和藏地阳光的温柔照拂。<br><br>朗境相信，最伟大的葡萄酒，从来不是人力所能创造的——而是风土借酿酒师之手，向世界交出的一份答卷。</p>
+  <p class="coda__body en" style="display:none">Chateau Langjing lives at the foot of Meili Snow Mountain and breathes with this Tibetan country. Every berry in our cellars has passed through the cold of the altitude, the burning of the UV, the slow whetting of the day-night swing, and the long gentleness of the plateau sun.<br><br>We believe the greatest wines were never made by human hand. They are handed, quietly, from the land — through the winemaker — back to the world.</p>
+</section>
+
+<!-- Sunset over Meili (landscape, full width) -->
+<figure class="fig fig--w reveal">
+  <img src="images/coda-sunset-meili.jpg" alt="日照金山">
+  <figcaption class="zh">Kawagebo at the last light · 日照金山</figcaption>
+  <figcaption class="en" style="display:none">日 照 金 山 · Kawagebo at the last light</figcaption>
+</figure>
+
+<footer>
+  <div class="foot__brand zh">朗境酒庄 · CHATEAU LANGJING</div>
+  <div class="foot__brand en" style="display:none">Chateau Langjing · 朗境酒庄</div>
+  <div class="foot__eng">In the folds of the Hengduan Mountains</div>
+  <div class="foot__line"></div>
+  <div class="foot__meta">© Two Thousand Twenty-Four · Deqin · Yunnan · China · All rights reserved</div>
+</footer>
+
+</main>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('.topbar .lang button');
+  var body=document.body;
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var lang=b.getAttribute('data-set');
+      body.setAttribute('data-lang',lang);
+      btns.forEach(function(x){x.classList.toggle('active',x===b)});
+      try{localStorage.setItem('langjing-lang',lang)}catch(e){}
+    });
+  });
+  try{
+    var saved=localStorage.getItem('langjing-lang');
+    if(saved==='en'){document.querySelector('.topbar .lang [data-set="en"]').click()}
+  }catch(e){}
+
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
+      })
+    },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+  }else{
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+  }
+})();
+</script>
+
+</body>
+</html>
