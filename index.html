@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>朗境酒庄 · 中国德钦梅里产区</title>
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+<style>
+:root{
+  --primary:#1a5f9e; --primary-dark:#0e3a64; --gold:#b08a4a; --gold-soft:#d4b87a;
+  --bg:#f6f4ee; --bg-dark:#0c1f2c; --card:#ffffff; --border:#e1dccc; --text:#1f2933; --muted:#6b7684;
+  --radius:10px; --shadow:0 4px 20px rgba(20,40,70,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.7}
+a{color:var(--primary);text-decoration:none}
+
+/* 导航 */
+.nav{position:sticky;top:0;z-index:50;background:rgba(246,244,238,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(176,138,74,.2);display:flex;align-items:center;justify-content:space-between;padding:14px 36px}
+.nav .brand{font-size:18px;font-weight:700;color:var(--primary-dark);letter-spacing:4px;display:flex;align-items:center;gap:10px}
+.nav .brand .dot{width:8px;height:8px;background:var(--gold);border-radius:50%}
+.nav ul{display:flex;gap:6px;list-style:none}
+.nav ul a{padding:8px 16px;color:var(--text);border-radius:20px;font-size:14px;transition:.15s}
+.nav ul a:hover,.nav ul a.active{background:var(--primary-dark);color:#f4e8c8}
+
+/* Hero */
+.hero{position:relative;height:78vh;min-height:480px;background:url('img/meili_vineyard.jpg') center/cover no-repeat;display:flex;align-items:flex-end;color:#fff;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(12,31,44,.25) 0%,rgba(12,31,44,.15) 35%,rgba(12,31,44,.78) 100%)}
+.hero-inner{position:relative;padding:0 60px 60px;max-width:900px}
+.hero h1{font-size:48px;font-weight:800;letter-spacing:6px;line-height:1.15;margin-bottom:14px;text-shadow:0 2px 18px rgba(0,0,0,.4)}
+.hero .sub{font-size:18px;color:#f4e8c8;letter-spacing:2px;margin-bottom:8px}
+.hero .line{width:60px;height:3px;background:var(--gold);margin:14px 0}
+.hero .tagline{font-size:15px;line-height:1.9;max-width:620px;color:#e9e1ce}
+
+/* 区块 */
+section.block{padding:80px 36px;max-width:1100px;margin:0 auto}
+section.block h2{font-size:30px;color:var(--primary-dark);text-align:center;margin-bottom:14px;letter-spacing:3px}
+section.block .h-sub{text-align:center;color:var(--gold);letter-spacing:6px;font-size:13px;margin-bottom:50px}
+section.block .col3{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+section.block .col2{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.info-card{background:var(--card);border-radius:var(--radius);padding:32px 28px;box-shadow:var(--shadow);border:1px solid var(--border);transition:.2s}
+.info-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(20,40,70,.12)}
+.info-card .icn{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--primary),#3a8fd4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
+.info-card h3{font-size:18px;color:var(--primary-dark);margin-bottom:8px}
+.info-card p{font-size:14px;color:var(--muted);line-height:1.8}
+
+/* 关于 */
+.about{background:var(--bg)}
+.about .lead{text-align:center;font-size:16px;line-height:2.2;color:#2c3742;max-width:820px;margin:0 auto 50px;letter-spacing:.5px}
+.about .pair{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+.about .pair .pic{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);height:340px;background:url('img/meili_vineyard.jpg') center/cover no-repeat}
+.about .pair .text h3{font-size:22px;color:var(--primary-dark);margin-bottom:14px}
+.about .pair .text p{font-size:14.5px;color:#3a4a5c;margin-bottom:14px;line-height:1.95}
+
+/* 风土数字 */
+.stat-band{background:linear-gradient(135deg,#0c1f2c,#1a3550);color:#fff;padding:60px 36px}
+.stat-band .row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1000px;margin:0 auto;text-align:center}
+.stat-band .num{font-size:42px;color:var(--gold);font-weight:800;letter-spacing:1px}
+.stat-band .lbl{font-size:13px;color:#d4b87a;margin-top:6px;letter-spacing:2px}
+
+/* 产品 */
+.wines{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.wine-card{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);display:flex;flex-direction:column}
+.wine-card .ph{height:200px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-size:34px;letter-spacing:6px;font-weight:700}
+.wine-card.lj .ph{background:linear-gradient(135deg,#0c1f2c,#1a3550)}
+.wine-card.hl .ph{background:linear-gradient(135deg,#5a3e1a,#a07a3a)}
+.wine-card .bd{padding:24px 26px;flex:1;display:flex;flex-direction:column}
+.wine-card .bd h3{font-size:22px;color:var(--primary-dark);margin-bottom:6px}
+.wine-card .bd .en{font-size:12px;color:var(--gold);letter-spacing:3px;margin-bottom:14px}
+.wine-card .bd p{font-size:13.5px;color:#3a4a5c;line-height:1.9;flex:1}
+.wine-card .bd .tag{display:inline-block;padding:3px 10px;background:#f4ebd2;color:#876923;border-radius:12px;font-size:11px;margin:2px 4px 2px 0}
+
+/* 报销区 */
+.expense-section{background:linear-gradient(180deg,#faf8f1,#f0ece1);padding:60px 0}
+.expense-section .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* 底部 */
+footer{background:#0c1f2c;color:#9aa6b3;text-align:center;padding:34px 16px;font-size:13px}
+footer .brand{color:var(--gold);font-weight:600;letter-spacing:3px;margin-bottom:6px;font-size:15px}
+
+@media (max-width:900px){
+  .nav{padding:12px 20px}
+  .nav ul{gap:0}
+  .nav ul a{padding:6px 10px;font-size:13px}
+  section.block{padding:60px 20px}
+  .hero h1{font-size:30px}
+  .hero-inner{padding:0 24px 36px}
+  .about .pair,.col3,.col2,.wines,.stat-band .row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav class="nav">
+  <div class="brand"><span class="dot"></span>朗境酒庄</div>
+  <ul>
+    <li><a href="#about" class="active">关于朗境</a></li>
+    <li><a href="#terroir">葡萄园风土</a></li>
+    <li><a href="#wines">产品系列</a></li>
+    <li><a href="#expense">报销管理</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="sub">中国 · 云南 · 德钦 · 梅里雪山产区</div>
+    <h1>朗境酒庄</h1>
+    <div class="line"></div>
+    <p class="tagline">在世界海拔最高的优质葡萄园之一，<br>朗境以中国香格里拉核心产区的风土密码，<br>酿造属于这片高原的纯净风骨。</p>
+  </div>
+</div>
+
+<!-- 关于 -->
+<section class="block about" id="about">
+  <h2>关于朗境</h2>
+  <div class="h-sub">ABOUT LANGJIN</div>
+  <p class="lead">
+    朗境（德钦）酒业有限公司位于云南省迪庆州德钦县奔子栏镇玉杰村，地处澜沧江梅里雪山峡谷腹地，
+    实际葡萄产能 1,000 吨/年，瓶装产能约 80 万瓶/年。
+    我们与前英国云顶（Springbank）酿酒大师 Frank McHardy 合作，
+    坚持单一园（Single Vineyard）理念，将雪域阳光、冰川融水与藏族风土凝于每一瓶酒中。
+  </p>
+  <div class="pair">
+    <div class="pic"></div>
+    <div class="text">
+      <h3>高原峡谷 · 一瓶装下世界屋脊的纯净</h3>
+      <p>葡萄园分布在海拔 2,000-2,800 米之间，澜沧江干热河谷与雪山冰川融水形成极端昼夜温差（昼夜可达 20℃ 以上），赋予葡萄极高的酸度与风味集中度。</p>
+      <p>酒庄与玉杰村集体经济组织深度合作，以"集体建设用地 + 农工旅融合"模式共建产业——种酿是农业、酒庄是工业、品鉴与文旅是服务业，朗境把一二三产融进了同一座山谷。</p>
+      <p>品牌矩阵：高端主线"朗境" + 威士忌/果酒副线"回澜"，由知名设计师事务所操刀酒标视觉。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 数字 -->
+<div class="stat-band">
+  <div class="row">
+    <div><div class="num">2,000+</div><div class="lbl">海拔 米</div></div>
+    <div><div class="num">20℃</div><div class="lbl">昼夜温差</div></div>
+    <div><div class="num">1,000</div><div class="lbl">年产能 吨</div></div>
+    <div><div class="num">800K</div><div class="lbl">年产瓶</div></div>
+  </div>
+</div>
+
+<!-- 风土 -->
+<section class="block" id="terroir">
+  <h2>葡萄园风土</h2>
+  <div class="h-sub">TERROIR OF MEILI</div>
+  <div class="col3">
+    <div class="info-card">
+      <div class="icn">⛰️</div>
+      <h3>梅里雪山</h3>
+      <p>海拔 6,740 米的梅里雪山主峰卡瓦格博守护着这片峡谷。雪山冰川融水汇成纯净溪流，是葡萄园灌溉的核心水源。</p>
+    </div>
+    <div class="info-card">
+      <div class="icn">☀️</div>
+      <h3>高原日照</h3>
+      <p>海拔 2,000 米以上的强烈紫外线与长日照，让葡萄皮生成更厚的单宁与花青素；昼夜 20℃ 以上的剧烈温差锁住酸度与果香。</p>
+    </div>
+    <div class="info-card">
+      <div class="icn">🍇</div>
+      <h3>砂岩风土</h3>
+      <p>澜沧江两岸的砂岩与砾石土壤排水性极佳，配合冰川融水灌溉，赋予葡萄独特的矿物感与高原花香。</p>
+    </div>
+    <div class="info-card">
+      <div class="icn">🏔️</div>
+      <h3>澜沧江峡谷</h3>
+      <p>干热河谷气候让葡萄在生长季享有足够热量与干燥度，最大限度降低病害压力，酿造天然纯净的果实。</p>
+    </div>
+    <div class="info-card">
+      <div class="icn">🛕</div>
+      <h3>藏族文化</h3>
+      <p>玉杰村是藏族聚居区，朗境与村集体经济组织合作，保留传统农耕与节庆智慧，让酒成为文化的载体。</p>
+    </div>
+    <div class="info-card">
+      <div class="icn">🏆</div>
+      <h3>国际团队</h3>
+      <p>前英国云顶（Springbank）首席酿酒师 Frank McHardy 出任技术总顾问，带来苏格兰百年传承工艺与中国风土的对话。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 产品 -->
+<section class="block" id="wines" style="background:var(--bg)">
+  <h2>产品系列</h2>
+  <div class="h-sub">OUR WINES & SPIRITS</div>
+  <div class="wines">
+    <div class="wine-card lj">
+      <div class="ph">朗境</div>
+      <div class="bd">
+        <h3>朗境 · 单一园</h3>
+        <div class="en">LANGJIN · SINGLE VINEYARD</div>
+        <p>来自德钦奔子栏玉杰村单一葡萄园，海拔 2,000+ 米极限风土。每一瓶承载梅里雪山下的纯净与力量。酒标由有行设计操刀，提供插画版与藏式风格两个版本。</p>
+        <div><span class="tag">高原单一园</span><span class="tag">限量酿造</span><span class="tag">藏式视觉</span></div>
+      </div>
+    </div>
+    <div class="wine-card hl">
+      <div class="ph">回澜</div>
+      <div class="bd">
+        <h3>回澜 · 威士忌 / 果酒</h3>
+        <div class="en">HUILAN · WHISKY & FRUIT SPIRITS</div>
+        <p>酒庄副线品牌，覆盖威士忌与特色果酒。由秩父威士忌（Chichibu）OB/IB 产品线深度对标设计，含单一麦芽与世界调和系列，搭配国际艺术家联名酒标。</p>
+        <div><span class="tag">单一麦芽</span><span class="tag">世界调和</span><span class="tag">IB 联名</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 报销 -->
+<section class="expense-section" id="expense">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:30px">
+      <h2 style="font-size:26px;color:#0e3a64;letter-spacing:3px">公司报销管理</h2>
+      <div style="color:#b08a4a;letter-spacing:6px;font-size:12px;margin-top:6px">EXPENSE MANAGEMENT</div>
+      <div style="color:#6b7684;font-size:13px;margin-top:12px">数据本地存储 · 离线可用 · 跨平台</div>
+    </div>
+
+    <div class="topbar" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn primary" onclick="newReceipt()" style="background:#1a5f9e;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px">＋ 新建报销单</button>
+        <button class="btn" onclick="exportAll()" style="background:#e8edf4;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px">📤 导出全部(JSON)</button>
+        <button class="btn" onclick="importData()" style="background:#e8edf4;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px">📥 导入</button>
+        <button class="btn outline" onclick="exportCSV()" style="background:#fff;border:1px solid #e1dccc;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px">📄 导出汇总CSV</button>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="doImport(event)">
+      </div>
+    </div>
+
+    <div id="listView">
+      <div class="card" style="background:#fff;border:1px solid #e1dccc;border-radius:10px;box-shadow:0 2px 10px rgba(20,40,70,.08);overflow:hidden">
+        <div class="head" style="padding:12px 18px;border-bottom:1px solid #e1dccc;display:flex;align-items:center;justify-content:space-between;background:#fafbfd">
+          <h2 style="font-size:15px;font-weight:600;color:#0e3a64">报销单列表</h2>
+          <span style="font-size:12px;color:#6b7684" id="listCount"></span>
+        </div>
+        <div id="listBody"></div>
+      </div>
+    </div>
+
+    <div id="editView" style="display:none">
+      <div class="card" style="background:#fff;border:1px solid #e1dccc;border-radius:10px;box-shadow:0 2px 10px rgba(20,40,70,.08);overflow:hidden">
+        <div class="head" style="padding:12px 18px;border-bottom:1px solid #e1dccc;display:flex;align-items:center;justify-content:space-between;background:#fafbfd">
+          <h2 style="font-size:15px;font-weight:600;color:#0e3a64" id="editTitle">编辑报销单</h2>
+          <div style="display:flex;gap:8px">
+            <button class="btn sm" onclick="saveReceipt()" style="background:#1a5f9e;color:#fff;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px">💾 保存</button>
+            <button class="btn sm outline" onclick="showList()" style="background:#fff;border:1px solid #e1dccc;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px">← 返回列表</button>
+          </div>
+        </div>
+        <div class="body" style="padding:18px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 18px">
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <label style="font-size:12.5px;font-weight:600;color:#6b7684">报销类型 <span style="color:#c62828">*</span></label>
+              <input id="f_type" list="typeOptions" placeholder="请选择或输入报销类型" style="border:1px solid #e1dccc;border-radius:8px;padding:9px 11px;font-size:14px;font-family:inherit">
+              <datalist id="typeOptions">
+                <option value="差旅费"></option><option value="交通费"></option><option value="餐饮费"></option>
+                <option value="住宿费"></option><option value="办公用品"></option><option value="业务招待"></option>
+                <option value="设备采购"></option><option value="技术服务费"></option><option value="咨询服务费"></option>
+                <option value="广告宣传"></option><option value="通讯费"></option><option value="培训费"></option><option value="其他"></option>
+              </datalist>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <label style="font-size:12.5px;font-weight:600;color:#6b7684">报销人 <span style="color:#c62828">*</span></label>
+              <input id="f_person" list="personOptions" placeholder="请选择领取报销的人" style="border:1px solid #e1dccc;border-radius:8px;padding:9px 11px;font-size:14px;font-family:inherit">
+              <datalist id="personOptions"></datalist>
+            </div>
+            <div style="grid-column:1/-1;display:flex;flex-direction:column;gap:5px">
+              <label style="font-size:12.5px;font-weight:600;color:#6b7684">报销事由描述 <span style="color:#c62828">*</span></label>
+              <textarea id="f_reason" placeholder="请填写报销事由" style="border:1px solid #e1dccc;border-radius:8px;padding:9px 11px;font-size:14px;font-family:inherit;resize:vertical;min-height:70px"></textarea>
+            </div>
+            <div style="grid-column:1/-1;display:flex;flex-direction:column;gap:5px">
+              <label style="font-size:12.5px;font-weight:600;color:#6b7684">报销相关合同（如有）</label>
+              <div style="border:2px dashed #e1dccc;border-radius:8px;padding:16px;text-align:center;cursor:pointer;color:#6b7684;background:#fafcff" onclick="document.getElementById('contractFile').click()">＋ 添加合同文件（PDF / Word）</div>
+              <input type="file" id="contractFile" accept=".pdf,.doc,.docx,.PDF,.DOC,.DOCX" multiple style="display:none" onchange="addFiles(event,'contract')">
+              <div id="contractList" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"></div>
+            </div>
+            <div style="grid-column:1/-1;display:flex;flex-direction:column;gap:5px">
+              <label style="font-size:12.5px;font-weight:600;color:#6b7684">报销相关的明细表及发票</label>
+              <div style="border:2px dashed #e1dccc;border-radius:8px;padding:16px;text-align:center;cursor:pointer;color:#6b7684;background:#fafcff" onclick="document.getElementById('invoiceFile').click()">＋ 添加明细表 / 发票（PDF / Word）</div>
+              <input type="file" id="invoiceFile" accept=".pdf,.doc,.docx,.PDF,.DOC,.DOCX" multiple style="display:none" onchange="addFiles(event,'invoice')">
+              <div id="invoiceList" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"></div>
+            </div>
+          </div>
+
+          <div style="margin-top:20px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <h3 style="font-size:14px;color:#0e3a64">报销明细</h3>
+              <button class="btn sm primary" onclick="addItem()" style="background:#1a5f9e;color:#fff;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px">＋ 添加明细</button>
+            </div>
+            <div style="background:#fff8e6;border:1px solid #f3e2b6;border-radius:8px;padding:9px 12px;font-size:12.5px;color:#7a5c00;margin-bottom:10px">💡 可点击「＋ 添加明细」复制多行，逐条填写费用类型、发生时间、金额与说明。</div>
+            <table style="width:100%;border-collapse:collapse;margin-top:6px">
+              <thead><tr style="background:#f4f7fb;font-size:12px;color:#6b7684;text-align:left">
+                <th style="padding:8px 10px;border-bottom:2px solid #e1dccc;width:36px">#</th>
+                <th style="padding:8px 10px;border-bottom:2px solid #e1dccc;width:150px">费用类型</th>
+                <th style="padding:8px 10px;border-bottom:2px solid #e1dccc;width:140px">发生时间</th>
+                <th style="padding:8px 10px;border-bottom:2px solid #e1dccc;width:130px">费用金额（元）</th>
+                <th style="padding:8px 10px;border-bottom:2px solid #e1dccc">费用说明</th>
+                <th style="padding:8px 10px;border-bottom:2px solid #e1dccc;width:52px;text-align:center">操作</th>
+              </tr></thead>
+              <tbody id="itemsBody"></tbody>
+            </table>
+            <div style="display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-top:12px;font-size:15px">合计金额：<span style="font-size:20px;font-weight:700;color:#1a5f9e" id="totalAmt">0.00</span> 元</div>
+          </div>
+
+          <div style="margin-top:20px">
+            <h3 style="font-size:14px;color:#0e3a64;margin-bottom:8px">支付报销款的个人账号</h3>
+            <div style="background:#fff8e6;border:1px solid #f3e2b6;border-radius:8px;padding:9px 12px;font-size:12.5px;color:#7a5c00;margin-bottom:10px">💡 建议与提交报销申请的个人保持一致。</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+              <div style="display:flex;flex-direction:column;gap:5px"><label style="font-size:12.5px;font-weight:600;color:#6b7684">收款人姓名</label><input id="f_acct_holder" placeholder="与报销人一致时自动填写" style="border:1px solid #e1dccc;border-radius:8px;padding:9px 11px;font-size:14px"></div>
+              <div style="display:flex;flex-direction:column;gap:5px"><label style="font-size:12.5px;font-weight:600;color:#6b7684">收款账号</label><input id="f_acct_no" placeholder="银行卡号 / 支付宝 / 微信账号" style="border:1px solid #e1dccc;border-radius:8px;padding:9px 11px;font-size:14px"></div>
+              <div style="display:flex;flex-direction:column;gap:5px"><label style="font-size:12.5px;font-weight:600;color:#6b7684">开户行</label><input id="f_acct_bank" placeholder="如：中国工商银行北京海淀支行" style="border:1px solid #e1dccc;border-radius:8px;padding:9px 11px;font-size:14px"></div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;margin-top:22px;flex-wrap:wrap">
+            <button class="btn primary" onclick="saveReceipt()" style="background:#1a5f9e;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px">💾 保存报销单</button>
+            <button class="btn success" onclick="printReceipt()" style="background:#2e7d32;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px">🖨 打印报销单</button>
+            <button class="btn outline" onclick="exportOne()" style="background:#fff;border:1px solid #e1dccc;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px">⬇ 导出本单(JSON)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 预览 -->
+<div style="position:fixed;inset:0;background:rgba(15,25,40,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:20px" id="previewMask" onclick="if(event.target===this)closePreview()">
+  <div style="background:#fff;border-radius:12px;width:min(900px,100%);max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div style="padding:12px 18px;border-bottom:1px solid #e1dccc;display:flex;align-items:center;justify-content:space-between;background:#fafbfd">
+      <h3 style="font-size:15px;font-weight:600;word-break:break-all" id="previewTitle"></h3>
+      <button onclick="closePreview()" style="background:#fff;border:1px solid #e1dccc;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px">✕ 关闭</button>
+    </div>
+    <div style="flex:1;overflow:auto;padding:16px;background:#f0f2f6" id="previewBody"></div>
+  </div>
+</div>
+
+<!-- 打印 -->
+<div id="printSheet" style="display:none"></div>
+
+<!-- 底部 -->
+<footer>
+  <div class="brand">朗境酒庄 · LANGJIN</div>
+  <div>中国 · 云南 · 德钦 · 梅里产区 ｜ 单一园葡萄酒 · 威士忌 · 果酒</div>
+  <div style="margin-top:8px;font-size:11px;opacity:.6">© Langjin Winery · Powered by Langjin Web</div>
+</footer>
+
+<script>
+/* ========== IndexedDB ========== */
+const DB='expenseAppDB', STORE='receipts';
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains(STORE))db.createObjectStore(STORE,{keyPath:'id'});};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+async function dbPut(rec){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(rec);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error);});}
+async function dbGetAll(){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(STORE,'readonly');const q=tx.objectStore(STORE).getAll();q.onsuccess=()=>res(q.result||[]);q.onerror=()=>rej(q.error);});}
+async function dbGet(id){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(STORE,'readonly');const q=tx.objectStore(STORE).get(id);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error);});}
+async function dbDel(id){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(id);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error);});}
+
+let cur=null;
+function newId(){return 'r'+Date.now()+Math.random().toString(36).slice(2,7);}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+
+function showList(){document.getElementById('listView').style.display='';document.getElementById('editView').style.display='none';loadList();}
+function showEdit(){document.getElementById('listView').style.display='none';document.getElementById('editView').style.display='';}
+function newReceipt(){cur={id:newId(),created_at:today(),updated_at:today(),type:'',person:'',reason:'',contract:[],invoice:[],items:[],acct:{holder:'',no:'',bank:''}};fillForm();showEdit();document.getElementById('editTitle').textContent='新建报销单';}
+async function editReceipt(id){cur=await dbGet(id);if(!cur){alert('未找到该报销单');return;}fillForm();showEdit();document.getElementById('editTitle').textContent='编辑报销单';}
+
+function fillForm(){
+  document.getElementById('f_type').value=cur.type||'';
+  document.getElementById('f_person').value=cur.person||'';
+  document.getElementById('f_reason').value=cur.reason||'';
+  document.getElementById('f_acct_holder').value=cur.acct.holder||'';
+  document.getElementById('f_acct_no').value=cur.acct.no||'';
+  document.getElementById('f_acct_bank').value=cur.acct.bank||'';
+  document.getElementById('itemsBody').innerHTML='';
+  (cur.items.length?cur.items:[{feeType:'',date:'',amount:'',note:''}]).forEach((it,i)=>addItem(it,i));
+  renderAttach('contract');renderAttach('invoice');
+}
+function collectForm(){
+  if(!cur)return;
+  cur.type=document.getElementById('f_type').value.trim();
+  cur.person=document.getElementById('f_person').value.trim();
+  cur.reason=document.getElementById('f_reason').value.trim();
+  cur.acct={holder:document.getElementById('f_acct_holder').value.trim(),no:document.getElementById('f_acct_no').value.trim(),bank:document.getElementById('f_acct_bank').value.trim()};
+  const rows=[...document.querySelectorAll('#itemsBody tr')];
+  cur.items=rows.map(r=>({feeType:r.querySelector('.it-type').value.trim(),date:r.querySelector('.it-date').value,amount:r.querySelector('.it-amt').value,note:r.querySelector('.it-note').value.trim()})).filter(i=>i.feeType||i.date||i.amount||i.note);
+  return cur;
+}
+
+function addItem(item,idx){
+  const tb=document.getElementById('itemsBody');
+  const i=idx===undefined?tb.children.length:idx;
+  const it=item||{feeType:'',date:'',amount:'',note:''};
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td style="padding:7px 8px;border-bottom:1px solid #eef1f6;width:36px;text-align:center;color:#6b7684;font-size:12px">${i+1}</td>
+    <td style="padding:7px 8px;border-bottom:1px solid #eef1f6;width:150px"><input class="it-type" list="typeOptions" value="${escAttr(it.feeType)}" placeholder="请选择" style="width:100%;border:1px solid #e1dccc;border-radius:6px;padding:7px 9px;font-size:13px"></td>
+    <td style="padding:7px 8px;border-bottom:1px solid #eef1f6;width:140px"><input class="it-date" type="date" value="${escAttr(it.date)}" style="width:100%;border:1px solid #e1dccc;border-radius:6px;padding:7px 9px;font-size:13px"></td>
+    <td style="padding:7px 8px;border-bottom:1px solid #eef1f6;width:130px"><input class="it-amt" type="number" min="0" step="0.01" value="${escAttr(it.amount)}" placeholder="0.00" oninput="calcTotal()" style="width:100%;border:1px solid #e1dccc;border-radius:6px;padding:7px 9px;font-size:13px"></td>
+    <td style="padding:7px 8px;border-bottom:1px solid #eef1f6"><input class="it-note" value="${escAttr(it.note)}" placeholder="请填写费用说明" style="width:100%;border:1px solid #e1dccc;border-radius:6px;padding:7px 9px;font-size:13px"></td>
+    <td style="padding:7px 8px;border-bottom:1px solid #eef1f6;width:52px;text-align:center"><button class="btn sm danger" onclick="this.closest('tr').remove();calcTotal();renum();" style="background:#fdecea;color:#c62828;border:1px solid #f5c6c0;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px">删</button></td>`;
+  tb.appendChild(tr);renum();calcTotal();
+}
+function renum(){[...document.querySelectorAll('#itemsBody tr')].forEach((r,i)=>r.querySelector('td').textContent=i+1);}
+function calcTotal(){let s=0;[...document.querySelectorAll('.it-amt')].forEach(x=>{const v=parseFloat(x.value);if(!isNaN(v))s+=v;});document.getElementById('totalAmt').textContent=s.toFixed(2);}
+
+async function addFiles(ev,kind){
+  const files=[...ev.target.files];
+  for(const f of files){
+    const ext=f.name.split('.').pop().toLowerCase();
+    if(!['pdf','doc','docx'].includes(ext)){alert('仅支持 PDF / Word（.doc/.docx）文件：'+f.name);continue;}
+    const blob=new Blob([await f.arrayBuffer()],{type:f.type});
+    cur[kind].push({name:f.name,size:f.size,blob});
+  }
+  ev.target.value='';renderAttach(kind);
+}
+function renderAttach(kind){
+  const box=document.getElementById(kind==='contract'?'contractList':'invoiceList');
+  box.innerHTML='';
+  (cur[kind]||[]).forEach((a,idx)=>{
+    const size=(a.size/1024).toFixed(0);
+    const icon=a.name.toLowerCase().endsWith('.pdf')?'📄':'📝';
+    const el=document.createElement('div');el.style.cssText='display:flex;align-items:center;gap:8px;background:#f4f7fb;border:1px solid #e1dccc;border-radius:8px;padding:6px 10px;font-size:12.5px;max-width:100%';
+    el.innerHTML=`<span style="font-size:15px">${icon}</span><span style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${escAttr(a.name)}">${escAttr(a.name)}</span><span style="color:#6b7684;font-size:11px">${size}KB</span>
+      <span style="cursor:pointer;color:#6b7684;font-size:12px;padding:0 3px;cursor:pointer" onclick="previewFile('${kind}',${idx})">预览</span>
+      <span style="cursor:pointer;color:#6b7684;font-size:12px;padding:0 3px" onclick="downloadFile('${kind}',${idx})">下载</span>
+      <span style="cursor:pointer;color:#c62828;font-size:12px;padding:0 3px" onclick="removeFile('${kind}',${idx})">删除</span>`;
+    box.appendChild(el);
+  });
+}
+function removeFile(kind,idx){cur[kind].splice(idx,1);renderAttach(kind);}
+function downloadFile(kind,idx){const a=cur[kind][idx];const url=URL.createObjectURL(a.blob);const el=document.createElement('a');el.href=url;el.download=a.name;el.click();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+function previewFile(kind,idx){
+  const a=cur[kind][idx];
+  document.getElementById('previewTitle').textContent=a.name;
+  const body=document.getElementById('previewBody');
+  const isPdf=a.name.toLowerCase().endsWith('.pdf');
+  body.innerHTML='';
+  if(isPdf){
+    const url=URL.createObjectURL(a.blob);
+    body.innerHTML=`<iframe src="${url}" style="width:100%;height:70vh;border:none;background:#fff;border-radius:6px"></iframe>`;
+  }else{
+    body.innerHTML='<div style="background:#fff;padding:20px;border-radius:6px;min-height:300px" id="docBody"><p style="color:#888">正在解析 Word 文档…</p></div>';
+    if(window.mammoth){
+      a.blob.arrayBuffer().then(buf=>mammoth.convertToHtml({arrayBuffer:buf})).then(r=>{
+        document.getElementById('docBody').innerHTML=r.value;
+      }).catch(()=>{document.getElementById('docBody').innerHTML='<p style="color:#c62828">Word 文档解析失败，可点击「下载」用本机 Word 打开。</p>';});
+    }else{
+      document.getElementById('docBody').innerHTML='<p style="color:#f9a825">未加载解析组件（需联网首次加载），可点击「下载」用本机 Word 打开。</p>';
+    }
+  }
+  document.getElementById('previewMask').style.display='flex';
+}
+function closePreview(){document.getElementById('previewMask').style.display='none';document.getElementById('previewBody').innerHTML='';}
+
+async function saveReceipt(){
+  collectForm();
+  if(!cur.type||!cur.person||!cur.reason){alert('请填写报销类型、报销人和报销事由描述（必填项）。');return;}
+  if(cur.items.length===0){alert('请至少填写一条报销明细，或先删除空明细行。');return;}
+  cur.updated_at=today();
+  await dbPut(cur);
+  alert('报销单已保存 ✓');
+  showList();
+}
+async function delReceipt(id){
+  if(!confirm('确定删除该报销单？附件数据将一并删除。'))return;
+  await dbDel(id);loadList();
+}
+
+async function loadList(){
+  const all=await dbGetAll();
+  all.sort((a,b)=>(b.updated_at||'').localeCompare(a.updated_at||''));
+  document.getElementById('listCount').textContent = all.length ? `共 ${all.length} 张` : '';
+  const tbody=document.getElementById('listBody');tbody.innerHTML='';
+  if(!all.length){tbody.innerHTML='<div style="padding:40px;text-align:center;color:#6b7684">还没有报销单，点击右上角「＋ 新建报销单」开始。</div>';return;}
+  const persons=[...new Set(all.map(r=>r.person).filter(Boolean))];
+  const ds=document.getElementById('personOptions');ds.innerHTML=persons.map(p=>`<option value="${escAttr(p)}">`).join('');
+  all.forEach(r=>{
+    const total=r.items.reduce((s,i)=>{const v=parseFloat(i.amount);return s+(isNaN(v)?0:v);},0);
+    const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid #eef1f6';
+    row.innerHTML=`<div style="flex:1;min-width:0;cursor:pointer" onclick="editReceipt('${r.id}')">
+        <div style="font-weight:600;font-size:14px">${escAttr(r.reason||'(未填事由)')}<span style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;background:#eef4fb;color:#1a5f9e;margin-left:6px">${escAttr(r.type||'未分类')}</span></div>
+        <div style="font-size:12px;color:#6b7684;margin-top:2px">报销人：${escAttr(r.person||'—')} ｜ 更新：${escAttr(r.updated_at||'')} ｜ 明细 ${r.items.length} 条</div>
+      </div>
+      <div style="font-weight:700;font-size:15px;color:#1a5f9e">¥ ${total.toFixed(2)}</div>
+      <button onclick="printOne('${r.id}')" style="background:#fff;border:1px solid #e1dccc;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px">🖨</button>
+      <button onclick="exportOne('${r.id}')" style="background:#fff;border:1px solid #e1dccc;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px">⬇</button>
+      <button onclick="delReceipt('${r.id}')" style="background:#fdecea;color:#c62828;border:1px solid #f5c6c0;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px">删</button>`;
+    tbody.appendChild(row);
+  });
+}
+
+function buildPrintHTML(r){
+  const total=r.items.reduce((s,i)=>{const v=parseFloat(i.amount);return s+(isNaN(v)?0:v);},0);
+  const rows=r.items.map((it,i)=>`<tr><td>${i+1}</td><td>${esc(it.feeType)}</td><td>${esc(it.date)}</td><td style="text-align:right">${esc(it.amount)}</td><td>${esc(it.note)}</td></tr>`).join('');
+  return `<div style="padding:24px">
+    <div style="text-align:center;font-size:20px;font-weight:700;padding:8px 0 2px">公司报销单</div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:#333;margin:6px 0"><span>编号：${r.id}</span><span>填单日期：${r.updated_at||r.created_at}</span></div>
+    <table style="width:100%;border-collapse:collapse;margin:8px 0"><tr><th style="width:110px">报销类型</th><td colspan="3">${esc(r.type)}</td></tr><tr><th>报销人</th><td>${esc(r.person)}</td><th style="width:110px">报销事由</th><td>${esc(r.reason)}</td></tr></table>
+    <div style="font-weight:700;margin:12px 0 4px;font-size:14px">报销明细</div>
+    <table style="width:100%;border-collapse:collapse"><tr><th style="width:36px">#</th><th>费用类型</th><th>发生时间</th><th style="width:120px">金额（元）</th><th>费用说明</th></tr>${rows}<tr><td colspan="3" style="text-align:right;font-weight:700">合计</td><td style="text-align:right;font-weight:700">${total.toFixed(2)}</td><td></td></tr></table>
+    <div style="font-weight:700;margin:12px 0 4px;font-size:14px">附件</div>
+    <table style="width:100%;border-collapse:collapse"><tr><th>相关合同</th><td>${r.contract.map(a=>esc(a.name)).join('、')||'—'}</td></tr><tr><th>明细表及发票</th><td>${r.invoice.map(a=>esc(a.name)).join('、')||'—'}</td></tr></table>
+    <div style="font-weight:700;margin:12px 0 4px;font-size:14px">支付账号</div>
+    <table style="width:100%;border-collapse:collapse"><tr><th style="width:110px">收款人</th><td>${esc(r.acct.holder)}</td><th style="width:110px">账号</th><td>${esc(r.acct.no)}</td><th style="width:110px">开户行</th><td>${esc(r.acct.bank)}</td></tr></table>
+    <div style="display:flex;justify-content:space-between;margin-top:40px"><div>报销人签字：＿＿＿＿＿＿</div><div>财务审核：＿＿＿＿＿＿</div><div>审批：＿＿＿＿＿＿</div></div>
+  </div>`;
+}
+function printReceipt(){collectForm();if(!cur.reason){alert('请先填写报销内容');return;}document.getElementById('printSheet').innerHTML=buildPrintHTML(cur);document.getElementById('printSheet').style.display='block';window.print();setTimeout(()=>{document.getElementById('printSheet').style.display='none';},300);}
+async function printOne(id){const r=await dbGet(id);if(!r)return;document.getElementById('printSheet').innerHTML=buildPrintHTML(r);document.getElementById('printSheet').style.display='block';window.print();setTimeout(()=>{document.getElementById('printSheet').style.display='none';},300);}
+
+async function exportOne(id){const r=id?await dbGet(id):collectForm();if(!r)return;const data={...r,contract:(r.contract||[]).map(a=>({name:a.name,size:a.size})),invoice:(r.invoice||[]).map(a=>({name:a.name,size:a.size}))};downloadJSON(`报销单_${r.person||'未填'}_${(r.updated_at||r.created_at||'').replace(/-/g,'')}.json`,data);}
+async function exportAll(){const all=await dbGetAll();const data=all.map(r=>({...r,contract:(r.contract||[]).map(a=>({name:a.name,size:a.size})),invoice:(r.invoice||[]).map(a=>({name:a.name,size:a.size}))}));downloadJSON('全部报销单_'+today().replace(/-/g,'')+'.json',data);}
+function downloadJSON(name,obj){const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+function importData(){document.getElementById('importFile').click();}
+function doImport(ev){
+  const f=ev.target.files[0];if(!f)return;
+  const reader=new FileReader();
+  reader.onload=async()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      const list=Array.isArray(data)?data:[data];
+      let n=0;
+      for(const r of list){if(!r.id||!r.items)continue;await dbPut({id:r.id,created_at:r.created_at||today(),updated_at:r.updated_at||today(),type:r.type||'',person:r.person||'',reason:r.reason||'',contract:r.contract||[],invoice:r.invoice||[],items:r.items||[],acct:r.acct||{holder:'',no:'',bank:''}});n++;}
+      alert(`导入成功：${n} 张报销单（注：附件文件需原机留存）`);
+      showList();
+    }catch(e){alert('导入失败：文件格式不正确');}
+  };
+  reader.readAsText(f);ev.target.value='';
+}
+function exportCSV(){
+  dbGetAll().then(all=>{
+    if(!all.length){alert('暂无数据');return;}
+    const rows=[['编号','报销类型','报销人','报销事由','费用类型','发生时间','金额(元)','费用说明','收款人','收款账号','开户行','单据日期']];
+    all.forEach(r=>{(r.items.length?r.items:[{}]).forEach(it=>{rows.push([r.id,r.type,r.person,'"'+String(r.reason||'').replace(/"/g,'""')+'"',it.feeType||'',it.date||'',it.amount||'',it.note||'',r.acct.holder||'',r.acct.no||'',r.acct.bank||'',r.updated_at||'']);});});
+    const csv='\ufeff'+rows.map(r=>r.join(',')).join('\n');
+    const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='报销汇总_'+today().replace(/-/g,'')+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
+  });
+}
+
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escAttr(s){return esc(s).replace(/"/g,'&quot;');}
+
+/* 导航高亮 */
+document.querySelectorAll('.nav a').forEach(a=>{
+  a.addEventListener('click',function(){
+    document.querySelectorAll('.nav a').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+loadList();
+</script>
+</body>
+</html>
