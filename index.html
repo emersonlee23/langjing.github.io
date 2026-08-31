@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>朗境酒庄 · 中国德钦梅里产区</title>
+<style>
+:root{
+  --bg:#f6f4ee; --paper:#fdfbf6; --ink:#1f2933; --muted:#6b7684; --line:#e1dccc;
+  --dark:#0c1f2c; --darker:#071722; --gold:#b08a4a; --gold-soft:#d4b87a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.85;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%;height:auto}
+
+/* 导航 */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(12,31,44,.92);backdrop-filter:blur(12px);color:#f4e8c8;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;transition:.3s}
+.nav.shrink{padding:10px 48px;background:rgba(12,31,44,.96)}
+.nav .brand{font-size:17px;font-weight:700;letter-spacing:6px;display:flex;align-items:center;gap:12px;color:#fff}
+.nav .brand .dot{width:6px;height:6px;background:var(--gold-soft);border-radius:50%}
+.nav ul{display:flex;gap:6px;list-style:none}
+.nav ul a{padding:8px 14px;font-size:13px;letter-spacing:2px;color:#e0d5b8;border-radius:20px;transition:.15s}
+.nav ul a:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav .toggle{display:none;font-size:20px;color:#fff;cursor:pointer}
+
+/* Hero 双拼 */
+.hero{position:relative;height:100vh;min-height:720px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;color:#fff}
+.hero .half{position:relative;background-size:cover;background-position:center}
+.hero .half::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(7,23,34,.0) 30%,rgba(7,23,34,.6) 100%)}
+.hero .h1{background-image:url('img/p1_hero.jpg')}
+.hero .h2{background-image:url('img/p3_panorama.jpg')}
+.hero .caption{position:absolute;left:0;right:0;bottom:48px;padding:0 48px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;z-index:2}
+.hero .cap-l{max-width:520px}
+.hero .cap-l .tag{font-size:12px;color:var(--gold-soft);letter-spacing:6px;margin-bottom:14px}
+.hero .cap-l h1{font-size:54px;font-weight:800;line-height:1.1;letter-spacing:6px;margin-bottom:6px;text-shadow:0 2px 16px rgba(0,0,0,.4)}
+.hero .cap-l .en{font-size:14px;color:#d4b87a;letter-spacing:8px;margin-bottom:18px}
+.hero .cap-l .line{width:54px;height:3px;background:var(--gold);margin-bottom:18px}
+.hero .cap-l p{font-size:15px;color:#e6dec5;line-height:1.85}
+.hero .cap-r{max-width:340px;text-align:right;font-size:13px;color:#c8b98e;line-height:1.8}
+.hero .scroll{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:4px;color:rgba(255,255,255,.6);z-index:3}
+.hero .scroll::after{content:'';display:block;width:1px;height:30px;background:rgba(255,255,255,.4);margin:6px auto 0}
+
+/* 区块通用 */
+section{padding:110px 48px}
+.wrap{max-width:1180px;margin:0 auto}
+.sec-num{font-size:13px;letter-spacing:6px;color:var(--gold);margin-bottom:14px}
+.sec-title{font-size:38px;color:var(--darker);font-weight:700;letter-spacing:4px;line-height:1.25;margin-bottom:18px}
+.sec-en{font-size:12px;letter-spacing:8px;color:var(--muted);text-transform:uppercase;margin-bottom:60px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+
+/* 画册型双图交叠 */
+.album{display:grid;grid-template-columns:1fr 1fr;gap:0 36px;align-items:start}
+.album .pic{position:relative;border-radius:6px;overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,.18)}
+.album .pic.alt{margin-top:80px}
+.album .pic img{width:100%;height:560px;object-fit:cover;transition:transform 1.2s}
+.album .pic:hover img{transform:scale(1.03)}
+.album .pic .cap{position:absolute;left:14px;bottom:14px;color:#fff;font-size:12px;letter-spacing:2px;background:rgba(0,0,0,.4);padding:4px 10px;border-radius:3px}
+.album .text h3{font-size:30px;color:var(--darker);font-weight:700;letter-spacing:3px;line-height:1.4;margin-bottom:18px}
+.album .text .quote{font-size:13px;letter-spacing:4px;color:var(--gold);margin-bottom:20px;padding-left:14px;border-left:2px solid var(--gold)}
+.album .text p{font-size:15.5px;color:#3a4654;margin-bottom:14px}
+.album .text p strong{color:var(--darker);font-weight:700}
+
+/* 数字卡 */
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin:60px 0 0}
+.tri .cell{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:36px 28px;text-align:center;box-shadow:0 4px 18px rgba(20,40,70,.06);transition:.2s}
+.tri .cell:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(20,40,70,.12)}
+.tri .cell .n{font-size:46px;color:var(--gold);font-weight:800;line-height:1;margin-bottom:10px}
+.tri .cell .lbl{font-size:12px;letter-spacing:4px;color:var(--muted)}
+.tri .cell p{margin-top:16px;font-size:13px;color:#5b6573;line-height:1.75}
+
+/* 折叠原文 */
+.expand{background:var(--paper);border:1px solid var(--line);border-radius:8px;margin-top:30px;padding:0;overflow:hidden}
+.expand summary{list-style:none;cursor:pointer;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;font-size:13px;letter-spacing:3px;color:var(--gold);background:#f9f5e9}
+.expand summary::-webkit-details-marker{display:none}
+.expand summary::after{content:'＋';font-size:18px;color:var(--gold)}
+.expand[open] summary::after{content:'－';font-size:18px}
+.expand[open] summary{border-bottom:1px solid var(--line)}
+.expand .body{padding:24px 28px;font-size:14.5px;color:#485466;line-height:2;background:#fff}
+.expand .body p{margin-bottom:14px}
+.expand .body strong{color:var(--darker)}
+.expand .body em{font-style:normal;background:linear-gradient(transparent 60%,rgba(176,138,74,.18) 60%);padding:0 2px}
+
+/* 反向 */
+.album.reverse{grid-template-columns:1fr 1fr;direction:rtl}
+.album.reverse>*{direction:ltr}
+
+/* 深色段 */
+section.dark{background:linear-gradient(180deg,var(--darker) 0%,var(--dark) 100%);color:#e6dec5}
+section.dark .sec-num{color:var(--gold-soft)}
+section.dark .sec-title{color:#f4e8c8}
+section.dark .sec-en{color:#a08c5e;border-color:rgba(176,138,74,.3)}
+section.dark .album .text h3{color:#f4e8c8}
+section.dark .album .text .quote{color:var(--gold-soft);border-color:var(--gold-soft)}
+section.dark .album .text p{color:#c8b98e}
+section.dark .album .text p strong{color:#f4e8c8}
+section.dark .expand{background:rgba(255,255,255,.04);border-color:rgba(176,138,74,.25)}
+section.dark .expand summary{background:rgba(176,138,74,.12);color:var(--gold-soft)}
+section.dark .expand[open] summary{border-color:rgba(176,138,74,.3)}
+section.dark .expand .body{background:rgba(0,0,0,.2);color:#c8b98e}
+section.dark .expand .body strong{color:#f4e8c8}
+
+/* 结语 */
+.ending{position:relative;min-height:90vh;background:url('img/p5_kawagebo.jpg') center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:#fff;text-align:center}
+.ending::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(7,23,34,.0) 0%,rgba(7,23,34,.6) 80%)}
+.ending .inner{position:relative;max-width:780px;padding:0 30px}
+.ending .num{font-size:13px;letter-spacing:8px;color:var(--gold-soft);margin-bottom:18px}
+.ending h2{font-size:48px;font-weight:800;line-height:1.3;letter-spacing:6px;margin-bottom:26px;text-shadow:0 2px 18px rgba(0,0,0,.4)}
+.ending p{font-size:17px;line-height:2;color:#e6dec5;margin-bottom:14px}
+.ending .sign{margin-top:30px;font-size:12px;letter-spacing:6px;color:#c8b98e}
+
+/* 图集 */
+.gallery{padding:80px 48px;background:var(--paper)}
+.gallery h3{font-size:13px;letter-spacing:6px;color:var(--gold);text-align:center;margin-bottom:8px}
+.gallery h4{font-size:24px;color:var(--darker);text-align:center;margin-bottom:50px;letter-spacing:4px}
+.gallery .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.gallery .item{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:6px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.gallery .item img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.gallery .item:hover img{transform:scale(1.08)}
+.gallery .item .tag{position:absolute;left:0;right:0;bottom:0;padding:18px 14px;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:13px;letter-spacing:1px;opacity:0;transition:.3s}
+.gallery .item:hover .tag{opacity:1}
+
+footer{background:var(--darker);color:#7a8a96;text-align:center;padding:46px 20px;font-size:12.5px}
+footer .brand{color:var(--gold);font-weight:600;letter-spacing:5px;margin-bottom:8px;font-size:15px}
+footer .en{color:#4a5560;letter-spacing:4px;font-size:10px;margin-bottom:14px}
+footer .lang{color:#a08c5e;margin-top:10px}
+
+@media (max-width:960px){
+  .nav{padding:14px 20px}
+  .nav ul{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(12,31,44,.97);padding:10px 20px 16px}
+  .nav ul.show{display:flex}
+  .nav .toggle{display:block}
+  .hero{grid-template-columns:1fr;height:auto;min-height:0}
+  .hero .half{height:50vh;min-height:340px}
+  .hero .caption{flex-direction:column;align-items:flex-start;padding:0 24px 24px}
+  .hero .cap-r{text-align:left}
+  .hero .cap-l h1{font-size:32px}
+  section{padding:70px 22px}
+  .sec-title{font-size:26px}
+  .album,.album.reverse{grid-template-columns:1fr;direction:ltr}
+  .album .pic.alt{margin-top:24px}
+  .tri,.gallery .grid{grid-template-columns:1fr 1fr}
+  .ending h2{font-size:28px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="brand"><span class="dot"></span>朗境酒庄</div>
+  <ul id="navUl">
+    <li><a href="#opening">秘境之酿</a></li>
+    <li><a href="#terroir">雪域风土</a></li>
+    <li><a href="#humanity">藏地人文</a></li>
+    <li><a href="#quality">品质追求</a></li>
+    <li><a href="#ending">结语</a></li>
+  </ul>
+  <div class="toggle" id="navToggle">≡</div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="half h1"></div>
+  <div class="half h2"></div>
+  <div class="caption">
+    <div class="cap-l">
+      <div class="tag">中国 · 云南 · 德钦 · 梅里产区 · 28°N</div>
+      <h1>朗境酒庄</h1>
+      <div class="en">LANGJIN WINERY · MEIRI</div>
+      <div class="line"></div>
+      <p>在横断山脉深处、三江并流的腹地，<br>北纬二十八度的雪域高原上，<br>朗境酒庄悄然生根。</p>
+    </div>
+    <div class="cap-r">
+      LANGJIN<br>
+      TIBETAN HIGHLANDS<br>
+      SINGLEVINEYARD · SINCE 2026
+    </div>
+  </div>
+  <div class="scroll">SCROLL</div>
+</div>
+
+<!-- 一·开篇 -->
+<section id="opening">
+  <div class="wrap">
+    <div class="album">
+      <div class="pic">
+        <img src="img/p3_panorama.jpg" alt="梅里雪山云海">
+        <div class="cap">梅里雪山 · 云海日出</div>
+      </div>
+      <div class="text">
+        <div class="sec-num">CHAPTER 01 · OPENING</div>
+        <h2 class="sec-title">秘境之酿</h2>
+        <div class="sec-en">A VINTAGE BORN FROM THE HIDDEN LAND</div>
+        <div class="quote">横断山脉 · 三江并流 · 北纬二十八度</div>
+        <p>这里是被<strong>梅里雪山</strong>与<strong>白马雪山</strong>环抱的藏地秘境，山地绵延，森林覆盖，天地辽阔。</p>
+        <p>产区的葡萄酒历史可追溯至百年前——<strong>法国传教士在茨中村种下第一株葡萄</strong>，老藤至今仍在生长。</p>
+        <p>百年后的今天，朗境酒庄在这片被时间厚爱的土地上，开启属于自己的篇章。</p>
+        <details class="expand">
+          <summary>展开原文 · 秘境之酿</summary>
+          <div class="body">
+            <p>在<strong>横断山脉</strong>深处、<strong>三江并流</strong>的腹地，北纬二十八度的雪域高原上，朗境酒庄悄然生根。这里是被梅里雪山与白马雪山环抱的<strong>藏地秘境</strong>，山地绵延，森林覆盖，天地辽阔。</p>
+            <p>产区的葡萄酒历史可追溯至百年前——<strong>法国传教士在茨中村种下第一株葡萄</strong>，老藤至今仍在生长。百年后的今天，朗境酒庄在这片被时间厚爱的土地上，开启属于自己的篇章。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 二·风土 -->
+<section id="terroir" class="dark">
+  <div class="wrap">
+    <div class="sec-num">CHAPTER 02 · TERROIR</div>
+    <h2 class="sec-title">雪域高原的天赋</h2>
+    <div class="sec-en">WHAT THE MOUNTAIN GIVES, NATURE COMPOUNDS</div>
+
+    <div class="album">
+      <div class="pic">
+        <img src="img/p4_valley.jpg" alt="海拔2000米的葡萄园垂直带">
+        <div class="cap">德钦梅里产区 · 海拔 2,000 米的葡萄园</div>
+      </div>
+      <div class="pic alt">
+        <img src="img/p5_kawagebo.jpg" alt="卡瓦格博峰">
+        <div class="cap">卡瓦格博 · 6,740 米</div>
+      </div>
+    </div>
+
+    <div class="album" style="margin-top:60px">
+      <div class="text">
+        <div class="quote">海拔 · 垂直的奇迹</div>
+        <h3 style="font-size:30px;letter-spacing:3px;margin-bottom:18px;font-weight:700;color:var(--darker)">2,000 米，不需埋土的产区</h3>
+        <p>朗境酒庄扎根于<strong>德钦梅里产区</strong>，葡萄园分布在海拔<strong>两千米以上</strong>的垂直带上。这里是中国少数<em>不需要冬季埋土防寒</em>的产区。</p>
+        <p>高海拔带来凉爽的气温、显著的昼夜温差，以及强度极高的紫外线——让葡萄在含糖量攀升之前，便能实现酚类物质的充分成熟，同时保有<strong>清冽的酸度</strong>。</p>
+        <details class="expand">
+          <summary>展开原文 · 海拔</summary>
+          <div class="body">
+            <p>朗境酒庄扎根于<strong>德钦梅里产区</strong>，葡萄园分布在海拔<strong>两千米以上</strong>的垂直带上。这里是中国少数<strong>不需要冬季埋土防寒</strong>的产区。高海拔带来凉爽的气温、显著的昼夜温差，以及强度极高的紫外线——让葡萄在含糖量攀升之前，便能实现酚类物质的充分成熟，同时保有<strong>清冽的酸度</strong>。</p>
+          </div>
+        </details>
+      </div>
+      <div class="text">
+        <div class="quote">气候 · 寒温带的高原韵律</div>
+        <h3 style="font-size:30px;letter-spacing:3px;margin-bottom:18px;font-weight:700;color:var(--darker)">季风交汇 · 风味的凝练</h3>
+        <p>产区属<strong>低纬度高海拔寒温带季风性气候</strong>，日照充足，降水适中。<strong>南亚季风</strong>与<strong>喜马拉雅冷风</strong>在此交汇，不同山谷间的降水差异悬殊。</p>
+        <p>适度的<strong>水分胁迫</strong>让果粒更小、皮果比更高，风味因此更加凝聚。</p>
+        <details class="expand">
+          <summary>展开原文 · 气候</summary>
+          <div class="body">
+            <p>产区属<strong>低纬度高海拔寒温带季风性气候</strong>，日照充足，降水适中。<strong>南亚季风</strong>与<strong>喜马拉雅冷风</strong>在此交汇，不同山谷间的降水差异悬殊，糖分积累与酸度表现各具个性。适度的水分胁迫让果粒更小、皮果比更高，风味因此更加凝聚。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="album" style="margin-top:60px">
+      <div class="pic">
+        <img src="img/p2_grapes.jpg" alt="葡萄特写">
+        <div class="cap">果实 · 凝聚高海拔的精华</div>
+      </div>
+      <div class="text">
+        <div class="quote">土壤 · 大地的语言</div>
+        <h3 style="font-size:30px;letter-spacing:3px;margin-bottom:18px;font-weight:700;color:var(--darker)">三亿年的风土记忆</h3>
+        <p>梅里产区的土壤是<strong>地质运动的活化石</strong>。横断山脉的形成比喜马拉雅更为古老，<strong>数亿年</strong>的碰撞挤压，造就了以<strong>碳酸盐岩、火山岩、碎屑岩</strong>三大母岩为主的地质格局。</p>
+        <p>土壤富含砂石，<strong>石块白天储热、夜间释放</strong>，为葡萄根系营造稳定的温度环境。土壤中可交换钙含量极高，让葡萄保留更多天然酒石酸——酒体带有清晰的<strong>咸矿感</strong>与挺拔的骨架。</p>
+        <details class="expand">
+          <summary>展开原文 · 土壤</summary>
+          <div class="body">
+            <p>梅里产区的土壤是<strong>地质运动的活化石</strong>。横断山脉的形成比喜马拉雅山脉更为古老，<strong>数亿年</strong>的碰撞挤压，造就了以<strong>碳酸盐岩、火山岩、碎屑岩</strong>三大母岩为主的地质格局。</p>
+            <p>土壤富含砂石，透气性极佳，<strong>石块白天储热、夜间释放</strong>，为葡萄根系营造稳定的温度环境。土壤中可交换钙含量极高，让葡萄保留更多天然酒石酸，酒体带有清晰的<strong>咸矿感</strong>与挺拔的骨架。</p>
+            <p>产区内的各个地块，因其海拔、朝向、坡度的不同，被精准匹配到最适宜的品种——高处的<strong>霞多丽与黑皮诺</strong>，中段的<strong>黑皮诺</strong>，低处的<strong>梅洛与赤霞珠</strong>，各得其所。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="tri">
+      <div class="cell">
+        <div class="n">2,000<span style="font-size:18px">+m</span></div>
+        <div class="lbl">葡萄园海拔</div>
+        <p>中国少数无需冬季埋土防寒的产区</p>
+      </div>
+      <div class="cell">
+        <div class="n">20<span style="font-size:18px">℃+</span></div>
+        <div class="lbl">昼夜温差</div>
+        <p>显著温差锁住酸度与花青素</p>
+      </div>
+      <div class="cell">
+        <div class="n">3<span style="font-size:18px">亿年</span></div>
+        <div class="lbl">土壤年龄</div>
+        <p>横断山脉碰撞挤压的活化石</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 三·藏地人文 -->
+<section id="humanity">
+  <div class="wrap">
+    <div class="sec-num">CHAPTER 03 · HUMANITY</div>
+    <h2 class="sec-title">雪山脚下的生活与信仰</h2>
+    <div class="sec-en">LIVES AND FAITH AT THE FOOT OF THE MOUNTAIN</div>
+
+    <div class="album">
+      <div class="pic">
+        <img src="img/p6_stupa.jpg" alt="藏式白塔">
+        <div class="cap">白塔 · 信仰的守望</div>
+      </div>
+      <div class="text">
+        <div class="quote">德钦 · 藏族聚居</div>
+        <h3 style="font-size:30px;letter-spacing:3px;margin-bottom:18px;font-weight:700;color:var(--darker)">千年迁徙 · 一脉传承</h3>
+        <p>德钦县居民以<strong>藏族</strong>为主，少数民族占比极高。<strong>战国时期</strong>古羌人最先抵达这片土地，<strong>唐代</strong>吐蕃部族从西藏迁入，与古羌人融合，形成今天的藏族居民。</p>
+        <p>先民们依据光照、水源、地质灾害风险与交通条件，世代试错，最终形成了今天<strong>错落有致的村落分布</strong>。</p>
+      </div>
+    </div>
+
+    <div class="album reverse" style="margin-top:60px">
+      <div class="pic">
+        <img src="img/p8_child.jpg" alt="藏族孩子">
+        <div class="cap">雪山下的孩子</div>
+      </div>
+      <div class="text">
+        <div class="quote">企业 + 农户 · 朴素双赢</div>
+        <h3 style="font-size:30px;letter-spacing:3px;margin-bottom:18px;font-weight:700;color:var(--darker)">手工采收 · 全流程山地</h3>
+        <p>产区农业人口<strong>人均耕地极少</strong>，朗境与当地农户建立了紧密的合作模式——<strong>企业提供技术与管理，农户负责日常栽培、手工采收与手工分选</strong>。</p>
+        <p>由于地块<strong>坡度极陡、道路狭窄</strong>，几乎无法使用机械，全流程依赖<strong>手工</strong>；手工分选会淘汰相当比例的不合格果粒。农户养殖牦牛需要草料，因此主动定期人工除草，形成了一种<strong>朴素而可持续的双赢</strong>。</p>
+        <details class="expand">
+          <summary>展开原文 · 农文旅融合</summary>
+          <div class="body">
+            <p>酒庄毗邻<strong>白马雪山国家级自然保护区</strong>，环保是发展的底线。而酒庄的未来规划中，也包含了<strong>农旅融合</strong>的探索——利用现有建筑改造为工作室与住宿设施，结合牦牛养殖开发奶酪、蜂蜜等在地衍生产品，让每一位到访者都能在品尝美酒的同时，沉浸于<strong>藏地四季的流转</strong>。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 四·品质追求 -->
+<section id="quality" class="dark">
+  <div class="wrap">
+    <div class="sec-num">CHAPTER 04 · QUALITY</div>
+    <h2 class="sec-title">小而精，少而珍</h2>
+    <div class="sec-en">SMALL BUT EXQUISITE — THE PURSUIT OF PURITY</div>
+
+    <div class="tri" style="margin-top:0">
+      <div class="cell">
+        <div class="n">勃艮第</div>
+        <div class="lbl">对标标杆</div>
+        <p>向世界顶级名庄看齐，定位高端稀缺酒款</p>
+      </div>
+      <div class="cell">
+        <div class="n">极低</div>
+        <div class="lbl">单产控制</div>
+        <p>精品小农庄标准，不做规模，只做精品</p>
+      </div>
+      <div class="cell">
+        <div class="n">生物动力</div>
+        <div class="lbl">耕作探索</div>
+        <p>更自然、更可持续，让葡萄真实表达土地</p>
+      </div>
+    </div>
+
+    <div class="album" style="margin-top:60px">
+      <div class="text">
+        <div class="quote">严控产量 · 极致执着</div>
+        <h3 style="font-size:30px;letter-spacing:3px;margin-bottom:18px;font-weight:700;color:#f4e8c8">一株一果 · 手工分选</h3>
+        <p>朗境酒庄的年产量严格控制在<strong>极低</strong>的水平，单产维持在<strong>精品小农庄</strong>的标准。这意味着每一瓶酒都承载着对品质的极致执着——<em>不做规模，只做精品</em>。</p>
+        <details class="expand">
+          <summary>展开原文 · 严控产量</summary>
+          <div class="body">
+            <p>朗境酒庄的年产量严格控制在<strong>极低</strong>的水平，单产维持在<strong>精品小农庄</strong>的标准。这个数字意味着每一瓶酒都承载着对品质的极致执着——<strong>不做规模，只做精品</strong>。</p>
+          </div>
+        </details>
+      </div>
+      <div class="text">
+        <div class="quote">海拔分区 · 品种布局</div>
+        <h3 style="font-size:30px;letter-spacing:3px;margin-bottom:18px;font-weight:700;color:#f4e8c8">从低到高 · 因地制宜</h3>
+        <p>酒庄按照海拔精细布局品种：<strong>中低海拔种植赤霞珠，更高处种植西拉，最高处种植黑皮诺与霞多丽</strong>。同时，规划了一块纯黑皮诺单一园，对标<strong>勃艮第顶级名庄</strong>理念。</p>
+        <details class="expand">
+          <summary>展开原文 · 海拔分区</summary>
+          <div class="body">
+            <p>酒庄按照海拔精细布局品种：<strong>中低海拔种植赤霞珠，更高处种植西拉，最高处种植黑皮诺与霞多丽</strong>。同时，规划了一块<strong>纯黑皮诺单一园</strong>，对标<strong>勃艮第顶级名庄</strong>理念，定位<strong>高端稀缺酒款</strong>。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="album" style="margin-top:60px">
+      <div class="pic">
+        <img src="img/p7_rock.jpg" alt="梅里产区岩石">
+        <div class="cap">梅里产区 · 岩石</div>
+      </div>
+      <div class="text">
+        <div class="quote">勃艮第标准 · 生物动力</div>
+        <h3 style="font-size:30px;letter-spacing:3px;margin-bottom:18px;font-weight:700;color:#f4e8c8">顶级标准 · 自然耕作</h3>
+        <p>在种植策略上，朗境对标<strong>勃艮第顶级名庄</strong>经验，尝试大幅提升种植密度，通过增加<strong>根系竞争</strong>来提升果实品质。</p>
+        <p>首个年份将采用<strong>收购葡萄与租赁葡萄园</strong>的方式酿造，已锁定<strong>适龄霞多丽</strong>和<strong>树龄更长的老藤霞多丽</strong>等优质原料。酒庄同时探索<strong>生物动力法</strong>种植的可能性。</p>
+        <details class="expand">
+          <summary>展开原文 · 顶级标准</summary>
+          <div class="body">
+            <p>在种植策略上，朗境对标<strong>勃艮第顶级名庄</strong>经验，尝试大幅提升种植密度，通过增加<strong>根系竞争</strong>来提升果实品质。首个年份将采用<strong>收购葡萄与租赁葡萄园</strong>的方式酿造，已锁定<strong>适龄霞多丽</strong>和<strong>树龄更长的老藤霞多丽</strong>等优质原料。</p>
+            <p>酒庄同时探索<strong>生物动力法种植</strong>的可能性，寻求更自然、更可持续的耕作方式，让每一株葡萄都能<strong>真实地表达脚下这片土地</strong>。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 五·结语 -->
+<div class="ending" id="ending">
+  <div class="inner">
+    <div class="num">CHAPTER 05 · EPILOGUE</div>
+    <h2>让世界品尝雪山</h2>
+    <p>朗境酒庄坐落于梅里雪山脚下，<br>与这片藏地秘境共同呼吸。</p>
+    <p>这里的每一粒葡萄，都经历了<strong>高海拔的凛冽、紫外线的淬炼、昼夜温差的雕琢</strong>，<br>和<strong>藏地阳光</strong>的温柔照拂。</p>
+    <p style="margin-top:30px;font-size:15px;color:#a08c5e"><em>朗境相信，最伟大的葡萄酒，从来不是人力所能创造的——<br>而是风土借酿酒师之手，向世界交出的一份答卷。</em></p>
+    <div class="sign">LANGJIN WINERY · 德钦 · 梅里</div>
+  </div>
+</div>
+
+<!-- 图集 -->
+<section class="gallery">
+  <h3>GALLERY · LANGJIN</h3>
+  <h4>酒庄掠影</h4>
+  <div class="grid">
+    <div class="item"><img src="img/p1_hero.jpg" alt=""><div class="tag">葡萄园日常 · 德钦梅里</div></div>
+    <div class="item"><img src="img/p2_grapes.jpg" alt=""><div class="tag">黑皮诺 · 高海拔凝聚</div></div>
+    <div class="item"><img src="img/p3_panorama.jpg" alt=""><div class="tag">云海日出 · 梅里</div></div>
+    <div class="item"><img src="img/p4_valley.jpg" alt=""><div class="tag">垂直海拔 · 2,000 米</div></div>
+    <div class="item"><img src="img/p5_kawagebo.jpg" alt=""><div class="tag">日照金山 · 卡瓦格博</div></div>
+    <div class="item"><img src="img/p6_stupa.jpg" alt=""><div class="tag">白塔 · 信仰的守望</div></div>
+    <div class="item"><img src="img/p7_rock.jpg" alt=""><div class="tag">岩石 · 地质的印记</div></div>
+    <div class="item"><img src="img/p8_child.jpg" alt=""><div class="tag">雪山下的孩子</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">朗境酒庄</div>
+  <div class="en">LANGJIN WINERY · MEIRI · DEQIN · YUNNAN</div>
+  <div>中国 · 云南 · 德钦 · 梅里产区 · 北纬 28°</div>
+  <div class="lang">— 雪山下的单一园 —</div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>80) nav.classList.add('shrink');
+  else nav.classList.remove('shrink');
+});
+document.getElementById('navToggle').onclick=()=>{
+  document.getElementById('navUl').classList.toggle('show');
+};
+</script>
+</body>
+</html>
